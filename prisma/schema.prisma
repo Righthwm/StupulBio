@@ -1,0 +1,81 @@
+// Prisma schema — SQLite for local development (zero-config).
+//
+// PRODUCTION (e.g. Vercel) migration path: SQLite's file DB is ephemeral on
+// serverless hosts. Switch to Postgres/Neon by changing the datasource below to
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")   // a Neon connection string
+// then run `npx prisma migrate deploy`. Note: with Postgres you can replace the
+// String `role`/`status` fields with real Prisma enums.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(cuid())
+  email     String      @unique
+  name      String
+  password  String
+  role      String      @default("CLIENT") // "CLIENT" | "ADMIN" (SQLite has no enums)
+  createdAt DateTime    @default(now())
+  orders    Order[]
+  visits    PageVisit[]
+}
+
+model PageVisit {
+  id         String   @id @default(cuid())
+  path       String
+  method     String
+  ip         String?
+  userAgent  String?
+  statusCode Int?
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model Order {
+  id                 String   @id @default(cuid())
+  orderNumber        String   @unique
+  userId             String?
+  user               User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  customerFirstName  String
+  customerLastName   String
+  customerEmail      String
+  customerPhone      String
+  shippingCounty     String
+  shippingCity       String
+  shippingAddress    String
+  shippingPostalCode String
+  paymentMethod      String
+  notes              String?
+  items              String   // JSON-encoded OrderItem[] (SQLite has no JSON type)
+  subtotal           Int
+  shipping           Int
+  total              Int
+  status             String   @default("noua")
+  createdAt          DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
