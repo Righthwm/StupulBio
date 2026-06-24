@@ -1,7 +1,15 @@
+import { config } from "dotenv";
+// Load .env.local so the admin credentials are available whether the seed runs
+// via `prisma db seed` (loads .env) or `npm run db:seed` (plain tsx).
+config({ path: ".env.local" });
+
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "stupulbio@outlook.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const PATHS = [
   "/",
@@ -12,7 +20,6 @@ const PATHS = [
   "/despre-noi",
   "/contact",
   "/login",
-  "/dashboard",
 ];
 const IPS = ["86.120.1.10", "79.115.2.20", "188.27.3.30", "5.12.4.40", "31.5.6.50", "127.0.0.1"];
 const USER_AGENTS = [
@@ -26,23 +33,20 @@ function pick<T>(arr: T[]): T {
 }
 
 async function main() {
-  const [adminPass, clientPass] = await Promise.all([
-    bcrypt.hash("admin123", 10),
-    bcrypt.hash("client123", 10),
-  ]);
+  if (!ADMIN_PASSWORD) {
+    throw new Error(
+      "ADMIN_PASSWORD is not set. Add ADMIN_EMAIL / ADMIN_PASSWORD to .env.local before seeding."
+    );
+  }
 
+  const password = await bcrypt.hash(ADMIN_PASSWORD, 10);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@demo.ro" },
-    update: { password: adminPass, role: "ADMIN" },
-    create: { email: "admin@demo.ro", name: "Admin Demo", password: adminPass, role: "ADMIN" },
-  });
-  const client = await prisma.user.upsert({
-    where: { email: "client@demo.ro" },
-    update: { password: clientPass, role: "CLIENT" },
-    create: { email: "client@demo.ro", name: "Client Demo", password: clientPass, role: "CLIENT" },
+    where: { email: ADMIN_EMAIL },
+    update: { role: "ADMIN", password, name: "Stupul Bio" },
+    create: { email: ADMIN_EMAIL, name: "Stupul Bio", role: "ADMIN", password },
   });
 
-  // Reset and seed 30 days of page visits so the chart is populated immediately.
+  // Seed 30 days of (anonymous) page visits so the traffic chart is populated.
   await prisma.pageVisit.deleteMany({});
   const visits: {
     path: string;
@@ -68,14 +72,14 @@ async function main() {
         ip: pick(IPS),
         userAgent: pick(USER_AGENTS),
         statusCode: 200,
-        userId: Math.random() < 0.1 ? client.id : null,
+        userId: null,
         createdAt: ts,
       });
     }
   }
   await prisma.pageVisit.createMany({ data: visits });
 
-  console.log(`Seeded users: ${admin.email} (ADMIN), ${client.email} (CLIENT)`);
+  console.log(`Seeded admin: ${admin.email} (ADMIN)`);
   console.log(`Seeded ${visits.length} page visits across 30 days.`);
 }
 

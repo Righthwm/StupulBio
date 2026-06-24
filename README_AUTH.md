@@ -12,10 +12,15 @@ DATABASE_URL="file:./dev.db"
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="<string aleator>"   # generează cu: openssl rand -base64 32
 AUTH_SECRET="<același string>"        # NextAuth v5 citește AUTH_SECRET
+
+# Contul de admin creat de seed (parola NU e hardcodată în cod):
+ADMIN_EMAIL="stupulbio@outlook.com"
+ADMIN_PASSWORD="<parolă admin>"
 ```
 
 > Notă: Prisma CLI citește `.env` (nu `.env.local`), de aceea `DATABASE_URL`
-> există și în `.env`. Restul (NextAuth, Resend) stau în `.env.local`.
+> există și în `.env`. Restul (NextAuth, admin, Resend) stau în `.env.local` —
+> seed-ul încarcă `.env.local` explicit pentru a citi `ADMIN_PASSWORD`.
 
 ## Migrații
 
@@ -30,21 +35,19 @@ npx prisma migrate dev --name <descriere>
 npx prisma generate
 ```
 
-## Seed (date demo)
+## Seed
 
 ```bash
 npx prisma db seed
 # sau:  npm run db:seed
 ```
 
-Creează:
+Creează (sau actualizează) **contul de admin** din `ADMIN_EMAIL` / `ADMIN_PASSWORD`
+(parola e citită din `.env.local`, niciodată hardcodată) și 30 de zile de vizite
+(`PageVisit`) ca să fie populat graficul de trafic.
 
-| Rol    | Email            | Parolă     |
-|--------|------------------|------------|
-| ADMIN  | admin@demo.ro    | admin123   |
-| CLIENT | client@demo.ro   | client123  |
-
-și 30 de zile de vizite (`PageVisit`) ca să fie populat graficul de trafic.
+Conturile de **client** se creează prin pagina `/register`. Pentru a promova un
+client la ADMIN, folosește tab-ul **Clienți** din panou (`/admin/clienti`).
 
 ## Rute
 
@@ -56,9 +59,10 @@ Creează:
 | `/admin`           | doar ADMIN   | trafic (carduri, grafic 30 zile, jurnal)    |
 | `/admin/comenzi`   | doar ADMIN   | lista comenzilor                            |
 | `/admin/mesaje`    | doar ADMIN   | mesajele de contact                         |
+| `/admin/clienti`   | doar ADMIN   | lista conturilor + schimbare rol            |
 | `/api/admin/traffic` | doar ADMIN | date agregate de trafic (JSON)              |
 
-Protecția se face în `middleware.ts` (redirect la `/login`; `/admin/*` cere ADMIN).
+Protecția se face în `proxy.ts` (redirect la `/login`; `/admin/*` cere ADMIN).
 
 ## Migrare la PostgreSQL (producție)
 
