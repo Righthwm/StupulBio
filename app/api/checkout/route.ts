@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createOrder } from "@/lib/db/orders";
+import { sendOrderEmail } from "@/lib/email";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 const orderSchema = z.object({
   customer: z.object({
@@ -28,8 +30,6 @@ const orderSchema = z.object({
       })
     )
     .min(1),
-  // Prices are whole lei and persist into integer columns — reject decimals
-  // loudly instead of letting them truncate silently on insert.
   totals: z.object({
     subtotal: z.number().int().nonnegative(),
     shipping: z.number().int().nonnegative(),
@@ -39,33 +39,54 @@ const orderSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const body: unknown = await request.json();
-    const order = orderSchema.parse(body);
-
-    // Card payments never reach this mock with real card data — the card fields
-    // are validated client-side only and intentionally not sent to the server.
+    const order = orderSchema.parse(await request.json());
     const orderId = `SB-${Date.now().toString(36).toUpperCase()}`;
+    const session = await auth();
 
-    await createOrder(orderId, {
-      customer: order.customer,
-      shippingAddress: order.shippingAddress,
-      paymentMethod: order.paymentMethod,
-      notes: order.notes,
-      items: order.items.map((i) => ({
-        productId: i.productId,
-        name: i.name,
-        variant: i.variant,
-        unitPrice: i.unitPrice,
-        quantity: i.quantity,
-      })),
-      totals: order.totals,
+    // Persist the order (linked to the account if the buyer is logged in).
+    await prisma.order.create({
+      data: {
+        orderNumber: orderId,
+        userId: session?.user?.id ?? null,
+        customerFirstName: order.customer.firstName,
+        customerLastName: order.customer.lastName,
+        customerEmail: order.customer.email,
+        customerPhone: order.customer.phone,
+        shippingCounty: order.shippingAddress.county,
+        shippingCity: order.shippingAddress.city,
+        shippingAddress: order.shippingAddress.address,
+        shippingPostalCode: order.shippingAddress.postalCode,
+        paymentMethod: order.paymentMethod,
+        notes: order.notes ?? null,
+        items: JSON.stringify(order.items),
+        subtotal: order.totals.subtotal,
+        shipping: order.totals.shipping,
+        total: order.totals.total,
+      },
     });
+
+    // Notify the shop by email. The order is already saved, so a mail failure
+    // must not fail the request.
+    try {
+      await sendOrderEmail({
+        orderId,
+        customer: order.customer,
+        shippingAddress: order.shippingAddress,
+        paymentMethod: order.paymentMethod,
+        notes: order.notes,
+        items: order.items,
+        totals: order.totals,
+      });
+    } catch (mailError) {
+      console.error("Failed to send order notification email:", mailError);
+    }
 
     return NextResponse.json({ success: true, orderId }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ success: false, errors: error.issues }, { status: 400 });
     }
+    console.error("Checkout error:", error);
     return NextResponse.json({ success: false, message: "Eroare internă de server." }, { status: 500 });
   }
 }
