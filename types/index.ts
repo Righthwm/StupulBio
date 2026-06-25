@@ -2,6 +2,8 @@ export interface ProductVariant {
   weight?: string;
   type?: string;
   price: number;
+  /** Shipping weight in kg (gross, incl. jar + packaging). Used for courier tariff. */
+  weightKg?: number;
 }
 
 export interface Product {

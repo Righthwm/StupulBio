@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendOrderEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { estimateShipping, cartSubtotal } from "@/lib/shipping";
 
 const orderSchema = z.object({
   customer: z.object({
@@ -13,7 +14,8 @@ const orderSchema = z.object({
   }),
   shippingAddress: z.object({
     county: z.string().min(1),
-    city: z.string().min(2),
+    city: z.string().min(1),
+    localityType: z.enum(["urban", "rural"]),
     address: z.string().min(5),
     postalCode: z.string().regex(/^\d{6}$/),
   }),
@@ -30,11 +32,6 @@ const orderSchema = z.object({
       })
     )
     .min(1),
-  totals: z.object({
-    subtotal: z.number().int().nonnegative(),
-    shipping: z.number().int().nonnegative(),
-    total: z.number().int().positive(),
-  }),
 });
 
 export async function POST(request: Request) {
@@ -42,6 +39,30 @@ export async function POST(request: Request) {
     const order = orderSchema.parse(await request.json());
     const orderId = `SB-${Date.now().toString(36).toUpperCase()}`;
     const session = await auth();
+
+    // Recompute shipping authoritatively on the server (never trust the client).
+    const lines = order.items.map((i) => ({
+      productId: i.productId,
+      variantPrice: i.unitPrice,
+      quantity: i.quantity,
+    }));
+    const subtotal = cartSubtotal(lines);
+    const shippingResult = await estimateShipping({
+      items: lines,
+      county: order.shippingAddress.county,
+      locality: order.shippingAddress.city,
+      localityType: order.shippingAddress.localityType,
+      cashOnDelivery: order.paymentMethod === "ramburs" ? subtotal : 0,
+    });
+    const shipping = shippingResult.free ? 0 : shippingResult.cost ?? 0;
+    const total = subtotal + shipping;
+    const shippingTbd = !shippingResult.free && !shippingResult.available;
+
+    const baseNotes = order.notes?.trim() || "";
+    const notes =
+      (shippingTbd ? "[Transport: se calculează la livrare] " : "") + baseNotes || null;
+
+    const totals = { subtotal, shipping, total };
 
     // Persist the order (linked to the account if the buyer is logged in).
     await prisma.order.create({
@@ -57,11 +78,11 @@ export async function POST(request: Request) {
         shippingAddress: order.shippingAddress.address,
         shippingPostalCode: order.shippingAddress.postalCode,
         paymentMethod: order.paymentMethod,
-        notes: order.notes ?? null,
+        notes,
         items: JSON.stringify(order.items),
-        subtotal: order.totals.subtotal,
-        shipping: order.totals.shipping,
-        total: order.totals.total,
+        subtotal,
+        shipping,
+        total,
       },
     });
 
@@ -73,15 +94,15 @@ export async function POST(request: Request) {
         customer: order.customer,
         shippingAddress: order.shippingAddress,
         paymentMethod: order.paymentMethod,
-        notes: order.notes,
+        notes: notes ?? undefined,
         items: order.items,
-        totals: order.totals,
+        totals,
       });
     } catch (mailError) {
       console.error("Failed to send order notification email:", mailError);
     }
 
-    return NextResponse.json({ success: true, orderId }, { status: 201 });
+    return NextResponse.json({ success: true, orderId, totals }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ success: false, errors: error.issues }, { status: 400 });

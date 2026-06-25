@@ -14,8 +14,8 @@ export const products: Product[] = [
     price: 45,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 45 },
-      { type: "Pachet 5 borcane (5kg)", price: 200 },
+      { weight: "1kg", price: 45, weightKg: 1.4 },
+      { type: "Pachet 5 borcane (5kg)", price: 200, weightKg: 7 },
     ],
     color: "#E8C44A",
     badge: "Bestseller",
@@ -43,7 +43,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 30 },
+      { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#D4A827",
     badge: "Calmant natural",
@@ -70,7 +70,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 30 },
+      { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#C8851A",
     badge: undefined,
@@ -96,7 +96,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 30 },
+      { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#8B5E0A",
     badge: "Premium",
@@ -123,7 +123,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 30 },
+      { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#4A3520",
     badge: "Rară",
@@ -150,7 +150,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg", price: 30 },
+      { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#E8D44A",
     badge: undefined,
@@ -176,7 +176,7 @@ export const products: Product[] = [
     price: 30,
     priceUnit: "1kg",
     variants: [
-      { weight: "1kg fagure", price: 30 },
+      { weight: "1kg fagure", price: 30, weightKg: 1.4 },
     ],
     color: "#D4A017",
     badge: "Autentică",
@@ -202,7 +202,7 @@ export const products: Product[] = [
     price: 15,
     priceUnit: "20ml",
     variants: [
-      { weight: "20ml", price: 15 },
+      { weight: "20ml", price: 15, weightKg: 0.2 },
     ],
     color: "#6B3A1F",
     badge: "Imunitate",

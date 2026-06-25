@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,7 +16,7 @@ import {
   ShoppingBasket,
   AlertCircle,
 } from "lucide-react";
-import { useCartStore, shippingFor, FREE_SHIPPING_THRESHOLD } from "@/lib/cart";
+import { useCartStore, FREE_SHIPPING_THRESHOLD } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
 import { HexPattern } from "@/components/ui/HexPattern";
 import { HoneyDropLoader } from "@/components/ui/HoneyDropLoader";
@@ -40,7 +40,8 @@ const schema = z
       .transform((v) => v.replace(/[\s.-]/g, ""))
       .pipe(z.string().regex(/^(\+40|0)?7\d{8}$/, "Telefon invalid (ex: 07XX XXX XXX)")),
     county: z.string().min(1, "Alege județul"),
-    city: z.string().min(2, "Minim 2 caractere"),
+    localityType: z.enum(["urban", "rural"]),
+    city: z.string().min(1, "Alege localitatea"),
     address: z.string().min(5, "Strada, numărul, bloc/apartament"),
     postalCode: z.string().regex(/^\d{6}$/, "Cod poștal din 6 cifre"),
     paymentMethod: z.enum(["card", "ramburs"]),
@@ -119,20 +120,98 @@ export default function CheckoutPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { paymentMethod: "ramburs", terms: false },
+    defaultValues: { paymentMethod: "ramburs", terms: false, localityType: "urban" },
   });
 
   const paymentMethod = watch("paymentMethod");
+  const county = watch("county");
+  const locality = watch("city");
+  const localityType = watch("localityType");
 
   // Gate cart-derived values on `mounted`: the cart is rehydrated from
   // localStorage on the client, so reading it during SSR / first render would
   // mismatch. Until mounted, render the same neutral values the server does.
   const subtotal = mounted ? totalPrice() : 0;
-  const shipping = mounted ? shippingFor(subtotal) : 0;
-  const total = subtotal + shipping;
+  const freeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+
+  // ---- Fan Courier shipping estimate ----
+  type Estimate =
+    | { status: "idle" | "loading" | "free" | "unavailable" }
+    | { status: "available"; cost: number };
+  const [localities, setLocalities] = useState<string[]>([]);
+  const [estimate, setEstimate] = useState<Estimate>({ status: "idle" });
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Stable signature of the cart so the estimate effect re-runs on cart changes.
+  const itemsSig = items
+    .map((i) => `${i.product.id}:${i.selectedVariant.price}x${i.quantity}`)
+    .join(",");
+
+  // County → load its localities, reset the chosen locality.
+  useEffect(() => {
+    setValue("city", "");
+    if (!county) {
+      setLocalities([]);
+      return;
+    }
+    let active = true;
+    fetch(`/api/shipping/localities?county=${encodeURIComponent(county)}`)
+      .then((r) => r.json())
+      .then((d: { localities: string[] }) => {
+        if (active) setLocalities(d.localities ?? []);
+      })
+      .catch(() => active && setLocalities([]));
+    return () => {
+      active = false;
+    };
+  }, [county, setValue]);
+
+  // Address + cart → debounced shipping estimate. Free shipping short-circuits.
+  useEffect(() => {
+    if (!mounted || items.length === 0) return;
+    if (freeShipping) {
+      setEstimate({ status: "free" });
+      return;
+    }
+    if (!county || !locality || !localityType) {
+      setEstimate({ status: "idle" });
+      return;
+    }
+    setEstimate({ status: "loading" });
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      fetch("/api/shipping/estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          county,
+          locality,
+          localityType,
+          paymentMethod,
+          items: items.map((i) => ({
+            productId: i.product.id,
+            variantPrice: i.selectedVariant.price,
+            quantity: i.quantity,
+          })),
+        }),
+      })
+        .then((r) => r.json())
+        .then((d: { free: boolean; available: boolean; cost: number | null }) => {
+          if (d.free) setEstimate({ status: "free" });
+          else if (d.available && typeof d.cost === "number") setEstimate({ status: "available", cost: d.cost });
+          else setEstimate({ status: "unavailable" });
+        })
+        .catch(() => setEstimate({ status: "unavailable" }));
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, county, locality, localityType, paymentMethod, freeShipping, itemsSig]);
+
+  const shippingCost = estimate.status === "available" ? estimate.cost : 0;
+  const total = subtotal + shippingCost;
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
@@ -150,6 +229,7 @@ export default function CheckoutPage() {
           shippingAddress: {
             county: data.county,
             city: data.city,
+            localityType: data.localityType,
             address: data.address,
             postalCode: data.postalCode,
           },
@@ -162,12 +242,12 @@ export default function CheckoutPage() {
             unitPrice: i.selectedVariant.price,
             quantity: i.quantity,
           })),
-          totals: { subtotal, shipping, total },
         }),
       });
       if (!res.ok) throw new Error("failed");
-      const json: { orderId: string } = await res.json();
-      setOrderTotal(total);
+      // Server recomputes shipping authoritatively and returns the real totals.
+      const json: { orderId: string; totals?: { total: number } } = await res.json();
+      setOrderTotal(json.totals?.total ?? total);
       setOrderPayment(data.paymentMethod);
       setOrderId(json.orderId);
       clearCart();
@@ -304,18 +384,29 @@ export default function CheckoutPage() {
                     ))}
                   </select>
                 </Field>
-                <Field label="Oraș / Localitate *" htmlFor="city" error={errors.city?.message}>
-                  <input id="city" type="text" autoComplete="address-level2" placeholder="Cluj-Napoca"
-                    className={`input-field ${errors.city ? "error" : ""}`} {...register("city")} />
+                <Field label="Localitate *" htmlFor="city" error={errors.city?.message}>
+                  <select id="city" autoComplete="address-level2" disabled={!county || localities.length === 0}
+                    className={`input-field ${errors.city ? "error" : ""}`} {...register("city")}>
+                    <option value="">{county ? "Alege localitatea…" : "Alege întâi județul"}</option>
+                    {localities.map((l) => (
+                      <option key={l} value={l}>{l}</option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Tip localitate *" htmlFor="localityType" error={errors.localityType?.message}>
+                  <select id="localityType" className={`input-field ${errors.localityType ? "error" : ""}`} {...register("localityType")}>
+                    <option value="urban">Urban (oraș / municipiu)</option>
+                    <option value="rural">Rural (comună / sat)</option>
+                  </select>
+                </Field>
+                <Field label="Cod poștal *" htmlFor="postalCode" error={errors.postalCode?.message}>
+                  <input id="postalCode" type="text" inputMode="numeric" autoComplete="postal-code" placeholder="400001"
+                    className={`input-field ${errors.postalCode ? "error" : ""}`} {...register("postalCode")} />
                 </Field>
                 <Field label="Adresă completă *" htmlFor="address" error={errors.address?.message} className="sm:col-span-2">
                   <input id="address" type="text" autoComplete="street-address"
                     placeholder="Str. Florilor nr. 12, bl. A2, sc. 1, ap. 5"
                     className={`input-field ${errors.address ? "error" : ""}`} {...register("address")} />
-                </Field>
-                <Field label="Cod poștal *" htmlFor="postalCode" error={errors.postalCode?.message}>
-                  <input id="postalCode" type="text" inputMode="numeric" autoComplete="postal-code" placeholder="400001"
-                    className={`input-field ${errors.postalCode ? "error" : ""}`} {...register("postalCode")} />
                 </Field>
               </div>
             </section>
@@ -499,12 +590,22 @@ export default function CheckoutPage() {
                   <dd className="text-text-primary">{formatPrice(subtotal)}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-text-muted">Livrare</dt>
-                  <dd className={shipping === 0 ? "text-success" : "text-text-primary"}>
-                    {shipping === 0 ? "Gratuită" : formatPrice(shipping)}
+                  <dt className="text-text-muted">Livrare (Fan Courier)</dt>
+                  <dd>
+                    {freeShipping ? (
+                      <span className="text-success">Gratuită</span>
+                    ) : estimate.status === "available" ? (
+                      <span className="text-text-primary">{formatPrice(estimate.cost)}</span>
+                    ) : estimate.status === "loading" ? (
+                      <span className="text-text-muted">Se calculează…</span>
+                    ) : estimate.status === "unavailable" ? (
+                      <span className="text-text-primary">Se calculează la livrare</span>
+                    ) : (
+                      <span className="text-text-muted">Completează adresa</span>
+                    )}
                   </dd>
                 </div>
-                {shipping > 0 && (
+                {!freeShipping && (
                   <p className="text-xs text-text-muted pt-1">
                     Livrare gratuită la comenzi peste {FREE_SHIPPING_THRESHOLD} lei.
                   </p>

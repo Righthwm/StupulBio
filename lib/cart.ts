@@ -5,14 +5,15 @@ import { persist } from "zustand/middleware";
 import type { CartItem, Product, ProductVariant } from "@/types";
 import { products } from "@/lib/products";
 
-/** Flat shipping fee (lei); waived above FREE_SHIPPING_THRESHOLD. */
-export const SHIPPING_COST = 30;
-/** Order subtotal (lei) at or above which shipping is free. */
-export const FREE_SHIPPING_THRESHOLD = 200;
+// Re-exported from the framework-neutral constants module (this file is
+// "use client"; server code must read the threshold from lib/constants).
+export { SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+
+import { SHIPPING_COST as FLAT, FREE_SHIPPING_THRESHOLD as THRESHOLD } from "@/lib/constants";
 
 /** Shipping fee for a given subtotal — 0 when it qualifies for free shipping. */
 export function shippingFor(subtotal: number): number {
-  return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  return subtotal >= THRESHOLD ? 0 : FLAT;
 }
 
 /**
