@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { formatPrice, ORDER_STATUS_LABELS } from "@/lib/utils";
+import { formatPrice, ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Contul meu" };
 
@@ -72,6 +72,19 @@ export default async function DashboardPage() {
                   </div>
                   <div className="text-right">
                     <Badge color="gold">{ORDER_STATUS_LABELS[order.status] ?? order.status}</Badge>
+                    <p
+                      className={`text-xs mt-1 ${
+                        order.paymentStatus === "paid"
+                          ? "text-success"
+                          : order.paymentStatus === "failed"
+                            ? "text-error"
+                            : order.paymentStatus === "pending"
+                              ? "text-amber-300"
+                              : "text-text-muted"
+                      }`}
+                    >
+                      {PAYMENT_STATUS_LABELS[order.paymentStatus] ?? order.paymentStatus}
+                    </p>
                     <p className="text-gold-300 font-heading text-lg mt-1">{formatPrice(order.total)}</p>
                   </div>
                 </div>

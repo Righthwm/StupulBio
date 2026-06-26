@@ -45,38 +45,11 @@ const schema = z
     address: z.string().min(5, "Strada, numărul, bloc/apartament"),
     postalCode: z.string().regex(/^\d{6}$/, "Cod poștal din 6 cifre"),
     paymentMethod: z.enum(["card", "ramburs"]),
-    cardNumber: z.string().optional(),
-    cardName: z.string().optional(),
-    cardExpiry: z.string().optional(),
-    cardCvv: z.string().optional(),
     notes: z.string().optional(),
     terms: z.boolean().refine((v) => v === true, "Trebuie să accepți termenii și condițiile"),
-  })
-  .superRefine((data, ctx) => {
-    if (data.paymentMethod !== "card") return;
-    if (!/^\d{16}$/.test((data.cardNumber ?? "").replace(/\s/g, ""))) {
-      ctx.addIssue({ code: "custom", path: ["cardNumber"], message: "Număr card invalid (16 cifre)" });
-    }
-    if (!data.cardName || data.cardName.trim().length < 3) {
-      ctx.addIssue({ code: "custom", path: ["cardName"], message: "Numele de pe card" });
-    }
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(data.cardExpiry ?? "")) {
-      ctx.addIssue({ code: "custom", path: ["cardExpiry"], message: "Format LL/AA" });
-    }
-    if (!/^\d{3,4}$/.test(data.cardCvv ?? "")) {
-      ctx.addIssue({ code: "custom", path: ["cardCvv"], message: "3–4 cifre" });
-    }
   });
 
 type FormData = z.infer<typeof schema>;
-
-const formatCardNumber = (v: string) =>
-  v.replace(/\D/g, "").slice(0, 16).replace(/(\d{4})(?=\d)/g, "$1 ");
-
-const formatExpiry = (v: string) => {
-  const d = v.replace(/\D/g, "").slice(0, 4);
-  return d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d;
-};
 
 function Field({
   label,
@@ -113,8 +86,17 @@ export default function CheckoutPage() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderTotal, setOrderTotal] = useState(0);
   const [orderPayment, setOrderPayment] = useState<"card" | "ramburs">("ramburs");
+  // Card payment is only available once Netopia is configured (server tells us).
+  const [cardEnabled, setCardEnabled] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    fetch("/api/payment/config")
+      .then((r) => r.json())
+      .then((d: { cardEnabled: boolean }) => setCardEnabled(!!d.cardEnabled))
+      .catch(() => setCardEnabled(false));
+  }, []);
 
   const {
     register,
@@ -215,37 +197,52 @@ export default function CheckoutPage() {
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
+    const payload = {
+      customer: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+      },
+      shippingAddress: {
+        county: data.county,
+        city: data.city,
+        localityType: data.localityType,
+        address: data.address,
+        postalCode: data.postalCode,
+      },
+      paymentMethod: data.paymentMethod,
+      notes: data.notes,
+      items: items.map((i) => ({
+        productId: i.product.id,
+        name: i.product.name,
+        variant: i.selectedVariant.weight ?? i.selectedVariant.type,
+        unitPrice: i.selectedVariant.price,
+        quantity: i.quantity,
+      })),
+    };
+
     try {
+      if (data.paymentMethod === "card") {
+        // Create a pending order + start Netopia, then go to the hosted card page.
+        const res = await fetch("/api/payment/initiate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json: { redirectUrl?: string } = await res.json();
+        if (!res.ok || !json.redirectUrl) throw new Error("failed");
+        window.location.href = json.redirectUrl; // browser navigates to Netopia
+        return;
+      }
+
+      // Ramburs: persist + confirm inline.
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customer: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            phone: data.phone,
-          },
-          shippingAddress: {
-            county: data.county,
-            city: data.city,
-            localityType: data.localityType,
-            address: data.address,
-            postalCode: data.postalCode,
-          },
-          paymentMethod: data.paymentMethod,
-          notes: data.notes,
-          items: items.map((i) => ({
-            productId: i.product.id,
-            name: i.product.name,
-            variant: i.selectedVariant.weight ?? i.selectedVariant.type,
-            unitPrice: i.selectedVariant.price,
-            quantity: i.quantity,
-          })),
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("failed");
-      // Server recomputes shipping authoritatively and returns the real totals.
       const json: { orderId: string; totals?: { total: number } } = await res.json();
       setOrderTotal(json.totals?.total ?? total);
       setOrderPayment(data.paymentMethod);
@@ -437,80 +434,33 @@ export default function CheckoutPage() {
                 </label>
 
                 <label
-                  className={`flex items-start gap-3 p-4 border rounded-sm cursor-pointer transition-all ${
-                    paymentMethod === "card"
-                      ? "border-gold-400 bg-gold-400/8"
-                      : "border-gold-400/20 hover:border-gold-400/40"
+                  className={`flex items-start gap-3 p-4 border rounded-sm transition-all ${
+                    !cardEnabled
+                      ? "border-gold-400/15 opacity-50 cursor-not-allowed"
+                      : paymentMethod === "card"
+                        ? "border-gold-400 bg-gold-400/8 cursor-pointer"
+                        : "border-gold-400/20 hover:border-gold-400/40 cursor-pointer"
                   }`}
                 >
-                  <input type="radio" value="card" className="sr-only" {...register("paymentMethod")} />
-                  <CreditCard size={20} className={paymentMethod === "card" ? "text-gold-300 mt-0.5" : "text-text-muted mt-0.5"} />
+                  <input type="radio" value="card" disabled={!cardEnabled} className="sr-only" {...register("paymentMethod")} />
+                  <CreditCard size={20} className={paymentMethod === "card" && cardEnabled ? "text-gold-300 mt-0.5" : "text-text-muted mt-0.5"} />
                   <span>
-                    <span className="block text-sm font-semibold text-text-primary">Card bancar</span>
+                    <span className="block text-sm font-semibold text-text-primary">Card bancar (Netopia)</span>
                     <span className="block text-xs text-text-muted mt-0.5">
-                      Visa, Mastercard — plată online securizată
+                      {cardEnabled
+                        ? "Redirecționare către pagina securizată Netopia (3D Secure)"
+                        : "Disponibilă în curând"}
                     </span>
                   </span>
                 </label>
               </div>
 
-              {paymentMethod === "card" && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  className="overflow-hidden"
-                >
-                  <div className="bg-bg-surface border border-gold-400/15 rounded-sm p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Număr card *" htmlFor="cardNumber" error={errors.cardNumber?.message} className="sm:col-span-2">
-                      <input
-                        id="cardNumber"
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="cc-number"
-                        placeholder="1234 5678 9012 3456"
-                        className={`input-field ${errors.cardNumber ? "error" : ""}`}
-                        {...register("cardNumber", {
-                          onChange: (e) => { e.target.value = formatCardNumber(e.target.value); },
-                        })}
-                      />
-                    </Field>
-                    <Field label="Nume titular *" htmlFor="cardName" error={errors.cardName?.message} className="sm:col-span-2">
-                      <input id="cardName" type="text" autoComplete="cc-name" placeholder="ION POPESCU"
-                        className={`input-field uppercase ${errors.cardName ? "error" : ""}`} {...register("cardName")} />
-                    </Field>
-                    <Field label="Expirare (LL/AA) *" htmlFor="cardExpiry" error={errors.cardExpiry?.message}>
-                      <input
-                        id="cardExpiry"
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="cc-exp"
-                        placeholder="08/27"
-                        className={`input-field ${errors.cardExpiry ? "error" : ""}`}
-                        {...register("cardExpiry", {
-                          onChange: (e) => { e.target.value = formatExpiry(e.target.value); },
-                        })}
-                      />
-                    </Field>
-                    <Field label="CVV *" htmlFor="cardCvv" error={errors.cardCvv?.message}>
-                      <input
-                        id="cardCvv"
-                        type="password"
-                        inputMode="numeric"
-                        autoComplete="cc-csc"
-                        placeholder="•••"
-                        maxLength={4}
-                        className={`input-field ${errors.cardCvv ? "error" : ""}`}
-                        {...register("cardCvv", {
-                          onChange: (e) => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); },
-                        })}
-                      />
-                    </Field>
-                    <p className="sm:col-span-2 flex items-center gap-2 text-xs text-text-muted">
-                      <Lock size={12} className="text-gold-400" />
-                      Datele cardului sunt criptate. Nu stocăm informațiile de plată.
-                    </p>
-                  </div>
-                </motion.div>
+              {paymentMethod === "card" && cardEnabled && (
+                <div className="bg-bg-surface border border-gold-400/15 rounded-sm p-4 flex items-start gap-2 text-xs text-text-muted">
+                  <Lock size={14} className="text-gold-400 shrink-0 mt-0.5" />
+                  După „Plătește”, vei fi redirecționat către pagina securizată Netopia pentru a
+                  introduce datele cardului (3D Secure). Nu stocăm datele cardului.
+                </div>
               )}
             </section>
 

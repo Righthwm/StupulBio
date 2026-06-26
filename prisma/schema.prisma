@@ -55,6 +55,10 @@ model Order {
   shippingAddress    String
   shippingPostalCode String
   paymentMethod      String
+  // "n/a" (ramburs) | "pending" | "paid" | "failed" — online payment state.
+  paymentStatus      String   @default("n/a")
+  // Netopia transaction id (ntpID), set once a card payment is initiated.
+  paymentId          String?
   notes              String?
   items              String   // JSON-encoded OrderItem[] (SQLite has no JSON type)
   subtotal           Int

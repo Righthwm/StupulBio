@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { formatPrice, ORDER_STATUS_LABELS } from "@/lib/utils";
+import { formatPrice, ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = { title: "Admin · Comenzi" };
@@ -24,6 +24,7 @@ export default async function AdminOrdersPage() {
                 <th className="text-left font-medium px-3 py-2">Client</th>
                 <th className="text-left font-medium px-3 py-2">Produse</th>
                 <th className="text-right font-medium px-3 py-2">Total</th>
+                <th className="text-left font-medium px-3 py-2">Plată</th>
                 <th className="text-left font-medium px-3 py-2">Status</th>
                 <th className="text-left font-medium px-3 py-2">Data</th>
               </tr>
@@ -41,6 +42,21 @@ export default async function AdminOrdersPage() {
                     </td>
                     <td className="px-3 py-2 text-text-muted">{count} buc.</td>
                     <td className="px-3 py-2 text-right text-gold-300">{formatPrice(o.total)}</td>
+                    <td className="px-3 py-2">
+                      <span
+                        className={
+                          o.paymentStatus === "paid"
+                            ? "text-success"
+                            : o.paymentStatus === "failed"
+                              ? "text-error"
+                              : o.paymentStatus === "pending"
+                                ? "text-amber-300"
+                                : "text-text-muted"
+                        }
+                      >
+                        {PAYMENT_STATUS_LABELS[o.paymentStatus] ?? o.paymentStatus}
+                      </span>
+                    </td>
                     <td className="px-3 py-2">
                       <Badge color="gold">{ORDER_STATUS_LABELS[o.status] ?? o.status}</Badge>
                     </td>

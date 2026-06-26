@@ -19,6 +19,14 @@ export const ORDER_STATUS_LABELS: Record<string, string> = {
   anulata: "Anulată",
 };
 
+/** Romanian display labels for the online payment status. */
+export const PAYMENT_STATUS_LABELS: Record<string, string> = {
+  "n/a": "Ramburs",
+  pending: "În așteptare",
+  paid: "Plătită",
+  failed: "Eșuată",
+};
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()
