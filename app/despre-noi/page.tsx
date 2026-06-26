@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { HexPattern } from "@/components/ui/HexPattern";
-import type { TeamMember, TimelineEvent } from "@/types";
+import type { TimelineEvent } from "@/types";
 
 const timeline: TimelineEvent[] = [
   { year: "2009", title: "Prima familie de albine", description: "Totul a început cu o singură familie de albine și o pasiune care nu mai putea fi ignorată. Primul cules, prima miere — nerafinată, naturală, perfectă." },
@@ -13,27 +13,6 @@ const timeline: TimelineEvent[] = [
   { year: "2020", title: "Puritate Garantată", description: "După ani de practici ecologice riguroase, garantăm puritatea naturală a fiecărui borcan. Niciun antibiotic, niciun tratament chimic — niciodată." },
   { year: "2024", title: "120 de familii de albine", description: "Stupina a atins o scală importantă, păstrând în același timp calitatea artizanală. Am investit în echipamente de extracție la rece și în ambalaje eco." },
   { year: "2026", title: "Stupul Bio online", description: "Mierea noastră ajunge acum direct la clienți din toată România. Povestea continuă — la fiecare borcan deschis, Mireasma florilor intră în casa ta." },
-];
-
-const team: TeamMember[] = [
-  {
-    name: "Ion Popescu",
-    role: "Apicultor principal & Fondator",
-    bio: "Apicultor cu 15 ani de experiență, pasionat de biodiversitate și medicină tradițională. A învățat meseria de la bunicul său.",
-    initials: "IP",
-  },
-  {
-    name: "Maria Popescu",
-    role: "Responsabil calitate & Marketing",
-    bio: "Biolog de formație, coordonează testele de calitate și asigură că fiecare produs respectă standardele de puritate. Pasionată de etnobotanică.",
-    initials: "MP",
-  },
-  {
-    name: "Andrei Ciobanu",
-    role: "Apicultor & Specialist recoltare",
-    bio: "Responsabil de stupi și de procesul de extracție la rece. Cunoscător profund al florei melifere și al comportamentului albinelor.",
-    initials: "AC",
-  },
 ];
 
 function TimelineSection() {
@@ -83,58 +62,6 @@ function TimelineSection() {
               </motion.li>
             ))}
           </ol>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TeamSection() {
-  const { ref, isVisible } = useScrollAnimation<HTMLDivElement>();
-
-  return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-bg-primary" aria-label="Echipa">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-14">
-          <span className="gold-line" />
-          <h2 className="font-heading text-text-primary">Echipa Noastră</h2>
-          <p className="text-text-secondary mt-3 max-w-lg mx-auto">
-            Oamenii care îngrijesc albinele și pun suflet în fiecare borcan.
-          </p>
-        </div>
-
-        <div
-          ref={ref}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6"
-        >
-          {team.map((member, i) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="card p-6 text-center"
-            >
-              <div className="relative w-16 h-16 mx-auto mb-4">
-                <svg viewBox="0 0 64 74" className="w-full h-full" aria-hidden="true">
-                  <polygon
-                    points="32,2 62,18 62,56 32,72 2,56 2,18"
-                    fill="#D4A017"
-                    stroke="#F5C518"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-                <span className="absolute inset-0 flex items-center justify-center font-heading text-[#14100A] text-lg font-semibold">
-                  {member.initials}
-                </span>
-              </div>
-              <h3 className="font-heading text-lg text-text-primary">{member.name}</h3>
-              <p className="text-gold-400 text-xs font-body uppercase tracking-wider mt-1 mb-3">
-                {member.role}
-              </p>
-              <p className="text-text-muted text-sm leading-relaxed">{member.bio}</p>
-            </motion.div>
-          ))}
         </div>
       </div>
     </section>
@@ -203,7 +130,6 @@ export default function DespreNoiPage() {
       </div>
 
       <TimelineSection />
-      <TeamSection />
 
       {/* CTA Banner */}
       <div
