@@ -5,7 +5,7 @@ import { HexPattern } from "@/components/ui/HexPattern";
 export const metadata: Metadata = {
   title: "Magazin",
   description:
-    "Descoperă întreaga gamă de produse Stupul Bio: miere de salcâm, tei, munte, mană și propolis.",
+    "Descoperă întreaga gamă de produse Fagurul de Aur: miere de salcâm, tei, munte, mană și propolis.",
 };
 
 export default function MagazinPage() {
@@ -18,7 +18,7 @@ export default function MagazinPage() {
           <span className="block w-12 h-px bg-gold-400 mx-auto mb-5" aria-hidden="true" />
           <h1 className="font-heading text-text-primary">Magazin</h1>
           <p className="text-text-secondary mt-4 max-w-lg mx-auto">
-            Toată mierea și produsele apicole Stupul Bio, recoltate manual din România.
+            Toată mierea și produsele apicole Fagurul de Aur, recoltate manual din România.
           </p>
         </div>
       </div>

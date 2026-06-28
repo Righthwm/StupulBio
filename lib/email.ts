@@ -19,8 +19,8 @@ export interface OrderItem {
  * the same address as MAIL_TO.
  */
 const RESEND_API_KEY = process.env.RESEND_API_KEY ?? "";
-const MAIL_FROM = process.env.MAIL_FROM ?? "Stupul Bio <onboarding@resend.dev>";
-const MAIL_TO = process.env.MAIL_TO ?? "stupulbio@outlook.com";
+const MAIL_FROM = process.env.MAIL_FROM ?? "Fagurul de Aur <onboarding@resend.dev>";
+const MAIL_TO = process.env.MAIL_TO ?? "faguruldeaur@gmail.com";
 
 let client: Resend | null = null;
 

@@ -12,7 +12,7 @@ const timeline: TimelineEvent[] = [
   { year: "2012", title: "Primii 50 de stupi", description: "Stupina a crescut organic, respectând ritmul natural al albinelor." },
   { year: "2020", title: "Puritate Garantată", description: "După ani de practici ecologice riguroase, garantăm puritatea naturală a fiecărui borcan. Niciun antibiotic, niciun tratament chimic — niciodată." },
   { year: "2024", title: "120 de familii de albine", description: "Stupina a atins o scală importantă, păstrând în același timp calitatea artizanală. Am investit în echipamente de extracție la rece și în ambalaje eco." },
-  { year: "2026", title: "Stupul Bio online", description: "Mierea noastră ajunge acum direct la clienți din toată România. Povestea continuă — la fiecare borcan deschis, Mireasma florilor intră în casa ta." },
+  { year: "2026", title: "Fagurul de Aur online", description: "Mierea noastră ajunge acum direct la clienți din toată România. Povestea continuă — la fiecare borcan deschis, Mireasma florilor intră în casa ta." },
 ];
 
 function TimelineSection() {
@@ -92,7 +92,7 @@ export default function DespreNoiPage() {
                 <span className="text-gradient-gold">suflet</span>
               </h1>
               <p className="text-text-secondary text-lg leading-relaxed mb-6">
-                Stupul Bio nu este doar o afacere. Este o filosofie de viață — în armonie cu natura,
+                Fagurul de Aur nu este doar o afacere. Este o filosofie de viață — în armonie cu natura,
                 cu albinele și cu pământul care ne-a dat totul.
               </p>
 
@@ -101,7 +101,7 @@ export default function DespreNoiPage() {
                   „Albinele nu produc miere pentru noi. Noi avem privilegiul de a fi parteneri
                   ai unui proces magic, vechi de milioane de ani.”
                 </p>
-                <cite className="text-text-muted text-sm mt-2 block">— Ion Popescu, fondator Stupul Bio</cite>
+                <cite className="text-text-muted text-sm mt-2 block">— Ion Popescu, fondator Fagurul de Aur</cite>
               </blockquote>
 
               <Link href="/contact" className="btn-secondary">
@@ -117,8 +117,8 @@ export default function DespreNoiPage() {
               className="flex justify-center"
             >
               <Image
-                src="/images/apiar-stupul-bio.jpg"
-                alt="Stupina Stupul Bio — stupii colorați așezați în câmp, cu dealurile împădurite în fundal"
+                src="/images/apiar-fagurul-de-aur.jpg"
+                alt="Stupina Fagurul de Aur — stupii colorați așezați în câmp, cu dealurile împădurite în fundal"
                 width={1600}
                 height={1200}
                 priority

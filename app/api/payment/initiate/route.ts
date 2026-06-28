@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const result = await startPayment({
       orderId,
       amount: totals.total, // whole lei == whole RON
-      description: `Comandă ${orderId} — Stupul Bio`,
+      description: `Comandă ${orderId} — Fagurul de Aur`,
       billing: {
         email: input.customer.email,
         phone: input.customer.phone,

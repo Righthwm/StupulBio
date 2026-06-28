@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import type { Product } from "@/types";
 
 export const siteConfig = {
-  name: "Stupul Bio",
+  name: "Fagurul de Aur",
   description:
     "Miere artizanală pură, 100% naturală. Salcâm, tei, mană, polifloră — recoltate manual, fără chimicale.",
-  url: "https://stupulbio.ro",
+  url: "https://faguruldeaur.ro",
   locale: "ro_RO",
 };
 

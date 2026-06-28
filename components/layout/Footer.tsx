@@ -59,16 +59,16 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-sm border border-gold-400/20 text-text-muted hover:text-gold-300 hover:border-gold-400/50 transition-all"
-                aria-label="Stupul Bio pe Facebook"
+                aria-label="Fagurul de Aur pe Facebook"
               >
                 <FacebookIcon />
               </a>
               <a
-                href="https://www.instagram.com/stupulbioo/"
+                href="https://www.instagram.com/faguruldeaur/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-sm border border-gold-400/20 text-text-muted hover:text-gold-300 hover:border-gold-400/50 transition-all"
-                aria-label="Stupul Bio pe Instagram"
+                aria-label="Fagurul de Aur pe Instagram"
               >
                 <InstagramIcon />
               </a>
@@ -136,7 +136,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-gold-400/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-text-muted text-xs text-center sm:text-left">
-            © {new Date().getFullYear()} Stupul Bio · Gorj, România · Toate drepturile rezervate
+            © {new Date().getFullYear()} Fagurul de Aur · Gorj, România · Toate drepturile rezervate
           </p>
           <p className="text-text-muted text-xs">
             <span className="text-gradient-gold">Miere pură</span> · Livrare în toată România

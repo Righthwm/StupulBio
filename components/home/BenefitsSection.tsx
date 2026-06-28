@@ -86,7 +86,7 @@ export function BenefitsSection() {
   return (
     <section
       className="relative py-24 px-4 sm:px-6 lg:px-8 bg-bg-primary"
-      aria-label="De ce Stupul Bio"
+      aria-label="De ce Fagurul de Aur"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -97,7 +97,7 @@ export function BenefitsSection() {
           className="text-center mb-14"
         >
           <span className="gold-line" />
-          <h2 className="section-heading font-heading">De Ce Stupul Bio</h2>
+          <h2 className="section-heading font-heading">De Ce Fagurul de Aur</h2>
           <p className="section-subheading">
             Șase motive pentru care mierea noastră este diferită.
           </p>

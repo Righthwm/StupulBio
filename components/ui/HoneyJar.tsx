@@ -327,13 +327,13 @@ export function HoneyJar({
           <polygon points="120,165 125,168 125,174 120,177 115,174 115,168" fill="none" stroke="#8F6606" strokeWidth="0.9" />
           <ellipse cx="120" cy="171.5" rx="2.6" ry="1.8" fill="#8F6606" />
           <circle cx="120" cy="169" r="1.3" fill="#8F6606" />
-          <text x="120" y="196" textAnchor="middle" fontSize="15" fontWeight="600" letterSpacing="1.5" fill="#3E2C10"
+          <text x="120" y="196" textAnchor="middle" fontSize="13" fontWeight="600" letterSpacing="1" fill="#3E2C10"
             style={{ fontFamily: "var(--font-cormorant-var), 'Cormorant Garamond', Georgia, serif" }}>
-            STUPUL
+            FAGURUL
           </text>
-          <text x="120" y="212" textAnchor="middle" fontSize="13" fontWeight="500" letterSpacing="5" fill="#3E2C10"
+          <text x="120" y="212" textAnchor="middle" fontSize="11" fontWeight="500" letterSpacing="2.5" fill="#3E2C10"
             style={{ fontFamily: "var(--font-cormorant-var), 'Cormorant Garamond', Georgia, serif" }}>
-            BIO
+            DE AUR
           </text>
           <line x1="88" y1="218" x2="152" y2="218" stroke="#A8845A" strokeWidth="0.7" />
           <text x="120" y="225.5" textAnchor="middle" fontSize="5.4" letterSpacing="1.6" fill="#8A7048"
@@ -351,13 +351,13 @@ export function HoneyJar({
           <polygon points="120,160 126,163.5 126,170.5 120,174 114,170.5 114,163.5" fill="none" stroke="#8F6606" strokeWidth="1" />
           <ellipse cx="120" cy="168" rx="3" ry="2" fill="#8F6606" />
           <circle cx="120" cy="165.2" r="1.5" fill="#8F6606" />
-          <text x="120" y="200" textAnchor="middle" fontSize="27" fontWeight="500" letterSpacing="0.5" fill="#3E2C10"
+          <text x="120" y="200" textAnchor="middle" fontSize="23" fontWeight="500" letterSpacing="0.5" fill="#3E2C10"
             style={{ fontFamily: "var(--font-cormorant-var), 'Cormorant Garamond', Georgia, serif" }}>
-            Stupul
+            Fagurul
           </text>
-          <text x="120" y="222" textAnchor="middle" fontSize="20" fontWeight="500" letterSpacing="6" fill="#3E2C10"
+          <text x="120" y="222" textAnchor="middle" fontSize="17" fontWeight="500" letterSpacing="2" fill="#3E2C10"
             style={{ fontFamily: "var(--font-cormorant-var), 'Cormorant Garamond', Georgia, serif" }}>
-            BIO
+            de Aur
           </text>
           <line x1="82" y1="227" x2="158" y2="227" stroke="#A8845A" strokeWidth="0.8" />
           <text x="120" y="234.5" textAnchor="middle" fontSize="5.4" letterSpacing="2" fill="#8A7048"

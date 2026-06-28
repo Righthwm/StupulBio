@@ -5,7 +5,7 @@ import { HexPattern } from "@/components/ui/HexPattern";
 export const metadata: Metadata = {
   title: "Termeni și Condiții",
   description:
-    "Termenii și condițiile de utilizare a magazinului online Stupul Bio — comenzi, plată, livrare, retur și garanții.",
+    "Termenii și condițiile de utilizare a magazinului online Fagurul de Aur — comenzi, plată, livrare, retur și garanții.",
 };
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -74,14 +74,14 @@ export default function TermeniPage() {
             <Section id="informatii-generale" title="1. Informații generale">
               <p>
                 Prezentul document stabilește termenii și condițiile de utilizare a site-ului{" "}
-                <strong className="text-text-primary">stupulbio.ro</strong> (denumit în continuare „Site-ul")
+                <strong className="text-text-primary">faguruldeaur.ro</strong> (denumit în continuare „Site-ul")
                 și de achiziționare a produselor comercializate prin intermediul acestuia.
               </p>
               <p>
-                Site-ul este operat de <strong className="text-text-primary">STUPUL BIO S.R.L.</strong>{" "}
-                (denumită în continuare „Vânzătorul" sau „Stupul Bio"), cu sediul în județul Gorj,
+                Site-ul este operat de <strong className="text-text-primary">FAGURUL DE AUR S.R.L.</strong>{" "}
+                (denumită în continuare „Vânzătorul" sau „Fagurul de Aur"), cu sediul în județul Gorj,
                 România, înregistrată la Registrul Comerțului sub nr. J20/XXX/20XX, CUI ROXXXXXXXX,
-                e-mail: stupulbio@outlook.com.
+                e-mail: faguruldeaur@gmail.com.
               </p>
               <p>
                 Prin accesarea și utilizarea Site-ului, precum și prin plasarea unei comenzi, sunteți de
@@ -89,7 +89,7 @@ export default function TermeniPage() {
                 Site-ul.
               </p>
               <p>
-                Stupul Bio își rezervă dreptul de a modifica acești termeni în orice moment. Versiunea
+                Fagurul de Aur își rezervă dreptul de a modifica acești termeni în orice moment. Versiunea
                 aplicabilă unei comenzi este cea în vigoare la data plasării comenzii.
               </p>
             </Section>
@@ -158,7 +158,7 @@ export default function TermeniPage() {
                 <li>
                   <strong className="text-text-primary">Plata online cu cardul</strong> — Visa sau
                   Mastercard, prin procesator de plăți autorizat. Datele cardului sunt procesate exclusiv
-                  de procesatorul de plăți, în mediu securizat (3D Secure); Stupul Bio nu stochează datele
+                  de procesatorul de plăți, în mediu securizat (3D Secure); Fagurul de Aur nu stochează datele
                   cardului dumneavoastră.
                 </li>
               </ul>
@@ -202,7 +202,7 @@ export default function TermeniPage() {
               </p>
               <p>Pentru exercitarea dreptului de retragere:</p>
               <ol className="list-decimal pl-5 space-y-1.5">
-                <li>notificați-ne în scris la stupulbio@outlook.com, în termenul de 14 zile, menționând numărul comenzii;</li>
+                <li>notificați-ne în scris la faguruldeaur@gmail.com, în termenul de 14 zile, menționând numărul comenzii;</li>
                 <li>expediați produsele înapoi în maximum 14 zile de la notificare, la adresa comunicată de noi;</li>
                 <li>costul direct al returnării este suportat de Cumpărător.</li>
               </ol>
@@ -220,7 +220,7 @@ export default function TermeniPage() {
                 minimale.
               </p>
               <p>
-                Stupul Bio garantează că mierea comercializată este <strong className="text-text-primary">100%
+                Fagurul de Aur garantează că mierea comercializată este <strong className="text-text-primary">100%
                 naturală</strong>, fără adaosuri de zahăr, siropuri sau alte substanțe. În cazul în care un
                 produs prezintă neconformități la livrare (ambalaj deteriorat, produs greșit), vă rugăm să
                 ne contactați în cel mult 48 de ore de la primire — îl înlocuim sau restituim contravaloarea,
@@ -253,19 +253,19 @@ export default function TermeniPage() {
             <Section id="proprietate" title="10. Proprietate intelectuală">
               <p>
                 Întregul conținut al Site-ului — texte, imagini, ilustrații, logo-uri, elemente de design,
-                structură și cod — este proprietatea Stupul Bio S.R.L. sau a partenerilor săi și este
+                structură și cod — este proprietatea Fagurul de Aur S.R.L. sau a partenerilor săi și este
                 protejat de legislația privind drepturile de autor și proprietatea intelectuală.
               </p>
               <p>
                 Este interzisă copierea, reproducerea, distribuirea sau utilizarea în scop comercial a
-                oricărui element al Site-ului fără acordul scris prealabil al Stupul Bio.
+                oricărui element al Site-ului fără acordul scris prealabil al Fagurul de Aur.
               </p>
             </Section>
 
             <Section id="litigii" title="11. Soluționarea litigiilor">
               <p>
                 Orice neînțelegere va fi soluționată, în primul rând, pe cale amiabilă. Ne puteți contacta
-                la stupulbio@outlook.com — răspundem în maximum 3 zile lucrătoare.
+                la faguruldeaur@gmail.com — răspundem în maximum 3 zile lucrătoare.
               </p>
               <p>
                 Dacă soluționarea amiabilă nu este posibilă, consumatorii se pot adresa:
@@ -298,7 +298,7 @@ export default function TermeniPage() {
               </p>
               <p>
                 Pentru orice întrebări legate de acești termeni, ne puteți scrie la{" "}
-                <strong className="text-text-primary">stupulbio@outlook.com</strong> sau prin{" "}
+                <strong className="text-text-primary">faguruldeaur@gmail.com</strong> sau prin{" "}
                 <Link href="/contact" className="text-gold-300 hover:underline">formularul de contact</Link>.
               </p>
             </Section>

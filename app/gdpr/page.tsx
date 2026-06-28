@@ -5,7 +5,7 @@ import { HexPattern } from "@/components/ui/HexPattern";
 export const metadata: Metadata = {
   title: "Politica de Confidențialitate (GDPR)",
   description:
-    "Politica de confidențialitate Stupul Bio — cum colectăm, folosim și protejăm datele tale personale, conform Regulamentului (UE) 2016/679.",
+    "Politica de confidențialitate Fagurul de Aur — cum colectăm, folosim și protejăm datele tale personale, conform Regulamentului (UE) 2016/679.",
 };
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -77,13 +77,13 @@ export default function GdprPage() {
             <Section id="operator" title="1. Cine suntem (Operatorul)">
               <p>
                 Operatorul datelor dumneavoastră cu caracter personal este{" "}
-                <strong className="text-text-primary">STUPUL BIO S.R.L.</strong>, cu sediul în județul
+                <strong className="text-text-primary">FAGURUL DE AUR S.R.L.</strong>, cu sediul în județul
                 Gorj, România, înregistrată la Registrul Comerțului sub nr. J20/XXX/20XX, CUI
-                ROXXXXXXXX (denumită în continuare „Stupul Bio", „noi").
+                ROXXXXXXXX (denumită în continuare „Fagurul de Aur", „noi").
               </p>
               <p>
                 Ne puteți contacta pentru orice aspect legat de protecția datelor la:{" "}
-                <strong className="text-text-primary">stupulbio@outlook.com</strong>.
+                <strong className="text-text-primary">faguruldeaur@gmail.com</strong>.
               </p>
               <p>
                 Respectăm confidențialitatea datelor dumneavoastră și prelucrăm datele personale doar în
@@ -102,7 +102,7 @@ export default function GdprPage() {
                 <li>
                   <strong className="text-text-primary">La plata online cu cardul:</strong> datele
                   cardului sunt colectate și procesate <em>exclusiv</em> de procesatorul de plăți
-                  autorizat, în mediul său securizat. Stupul Bio nu vede și nu stochează numărul
+                  autorizat, în mediul său securizat. Fagurul de Aur nu vede și nu stochează numărul
                   cardului, data de expirare sau codul CVV.
                 </li>
                 <li>
@@ -211,7 +211,7 @@ export default function GdprPage() {
               </ul>
               <p>
                 Pentru exercitarea acestor drepturi, scrieți-ne la{" "}
-                <strong className="text-text-primary">stupulbio@outlook.com</strong>. Răspundem în
+                <strong className="text-text-primary">faguruldeaur@gmail.com</strong>. Răspundem în
                 maximum <strong className="text-text-primary">30 de zile</strong> de la primirea cererii
                 (termen prelungibil cu 60 de zile în cazuri complexe, cu notificare prealabilă).
               </p>
@@ -283,7 +283,7 @@ export default function GdprPage() {
             <Section id="contact-dpo" title="11. Contact și plângeri">
               <p>
                 Pentru orice întrebare sau solicitare privind datele personale:{" "}
-                <strong className="text-text-primary">stupulbio@outlook.com</strong> sau{" "}
+                <strong className="text-text-primary">faguruldeaur@gmail.com</strong> sau{" "}
                 <Link href="/contact" className="text-gold-300 hover:underline">formularul de contact</Link>.
               </p>
               <p>

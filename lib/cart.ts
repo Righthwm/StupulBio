@@ -109,7 +109,7 @@ export const useCartStore = create<CartState>()(
         get().items.reduce((sum, i) => sum + i.selectedVariant.price * i.quantity, 0),
     }),
     {
-      name: "stupul-bio-cart",
+      name: "fagurul-de-aur-cart",
       partialize: (state) => ({ items: state.items }),
       onRehydrateStorage: () => (state) => {
         if (state) state.items = reconcileItems(state.items);

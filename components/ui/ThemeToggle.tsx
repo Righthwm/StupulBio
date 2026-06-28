@@ -18,7 +18,7 @@ export function ThemeToggle() {
     setIsLight(next);
     document.documentElement.classList.toggle("light", next);
     try {
-      localStorage.setItem("stupul-bio-theme", next ? "light" : "dark");
+      localStorage.setItem("fagurul-de-aur-theme", next ? "light" : "dark");
     } catch {
       // localStorage unavailable (private mode) — theme just won't persist
     }

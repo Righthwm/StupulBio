@@ -15,10 +15,10 @@ const sizes = {
 export function Logo({ size = "md", className = "" }: LogoProps) {
   const { width, height } = sizes[size];
   return (
-    <Link href="/" aria-label="Stupul Bio — Acasă" className={`inline-block shrink-0 ${className}`}>
+    <Link href="/" aria-label="Fagurul de Aur — Acasă" className={`inline-block shrink-0 ${className}`}>
       <Image
         src="/logo.svg"
-        alt="Stupul Bio"
+        alt="Fagurul de Aur"
         width={width}
         height={height}
         priority

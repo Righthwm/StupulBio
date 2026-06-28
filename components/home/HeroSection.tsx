@@ -21,7 +21,7 @@ export function HeroSection() {
   return (
     <section
       className="relative min-h-screen"
-      aria-label="Secțiunea hero Stupul Bio"
+      aria-label="Secțiunea hero Fagurul de Aur"
     >
       <div
         className="h-screen flex items-center overflow-hidden"
@@ -107,7 +107,7 @@ export function HeroSection() {
             animate="visible"
             className="mb-8 flex justify-center"
           >
-            <h1 className="sr-only">Stupul Bio</h1>
+            <h1 className="sr-only">Fagurul de Aur</h1>
             <motion.div
               id="hero-jar"
               animate={{ y: [0, -8, 0] }}

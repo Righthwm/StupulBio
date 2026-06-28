@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "stupulbio@outlook.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "faguruldeaur@gmail.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const PATHS = [
@@ -42,8 +42,8 @@ async function main() {
   const password = await bcrypt.hash(ADMIN_PASSWORD, 10);
   const admin = await prisma.user.upsert({
     where: { email: ADMIN_EMAIL },
-    update: { role: "ADMIN", password, name: "Stupul Bio" },
-    create: { email: ADMIN_EMAIL, name: "Stupul Bio", role: "ADMIN", password },
+    update: { role: "ADMIN", password, name: "Fagurul de Aur" },
+    create: { email: ADMIN_EMAIL, name: "Fagurul de Aur", role: "ADMIN", password },
   });
 
   // Seed 30 days of (anonymous) page visits so the traffic chart is populated.

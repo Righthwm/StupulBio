@@ -55,14 +55,14 @@ export function StorySection() {
               <span className="text-gradient-gold">Miere excepțională.</span>
             </h2>
             <p className="text-text-secondary leading-relaxed mb-6">
-              Stupul Bio a luat naștere dintr-o pasiune profundă pentru natură și respectul față de
+              Fagurul de Aur a luat naștere dintr-o pasiune profundă pentru natură și respectul față de
               acele ființe minuscule care hrănesc planeta. Stupina noastră se află în mijlocul
               naturii, într-un loc unde aerul este curat, florile sunt sălbatice și niciun chimical
               nu perturbă echilibrul natural.
             </p>
             <p className="text-text-secondary leading-relaxed mb-8">
               Nu folosim antibiotice, nu adăugăm zahăr, nu forțăm producția. Fiecare borcan de miere
-              Stupul Bio reprezintă munca a mii de albine libere, care zboară printre lavandă și
+              Fagurul de Aur reprezintă munca a mii de albine libere, care zboară printre lavandă și
               sunătoare, tei și salcâm, și aduc acasă esența pură a florilor sălbatice.
             </p>
 
@@ -82,7 +82,7 @@ export function StorySection() {
           >
             <Image
               src="/images/fagure.jpg"
-              alt="Fagure de miere căpăcit, recoltat în stupina Stupul Bio"
+              alt="Fagure de miere căpăcit, recoltat în stupina Fagurul de Aur"
               width={1440}
               height={1080}
               className="rounded-lg shadow-xl w-full max-w-md h-auto object-cover border border-gold-400/10"

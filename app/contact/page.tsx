@@ -86,7 +86,7 @@ export default function ContactPage() {
             <div className="space-y-5 mb-8">
               {[
                 { icon: MapPin, label: "Adresă", value: "Gorj, România" },
-                { icon: Mail, label: "Email", value: "stupulbio@outlook.com" },
+                { icon: Mail, label: "Email", value: "faguruldeaur@gmail.com" },
                 { icon: Phone, label: "Telefon", value: "+40 743 252 661" },
                 { icon: Clock, label: "Program", value: "Lun–Vin: 09:00–18:00" },
               ].map(({ icon: Icon, label, value }) => (
@@ -105,12 +105,12 @@ export default function ContactPage() {
             <div className="flex gap-3 mb-10">
               <a href="https://www.facebook.com/profile.php?id=61590509170705" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-text-muted hover:text-gold-300 transition-colors border border-gold-400/20 px-3 py-2 rounded-sm"
-                aria-label="Facebook Stupul Bio">
+                aria-label="Facebook Fagurul de Aur">
                 <FacebookIcon /> Facebook
               </a>
-              <a href="https://www.instagram.com/stupulbioo/" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/faguruldeaur/" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-text-muted hover:text-gold-300 transition-colors border border-gold-400/20 px-3 py-2 rounded-sm"
-                aria-label="Instagram Stupul Bio">
+                aria-label="Instagram Fagurul de Aur">
                 <InstagramIcon /> Instagram
               </a>
             </div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
             <div className="rounded-sm border border-gold-400/12 overflow-hidden bg-bg-surface">
               <Image
                 src="/images/transport-stupi.jpg"
-                alt="Camion încărcat cu stupii coloraţi ai stupinei Stupul Bio, pregătit pentru transport în pastoral"
+                alt="Camion încărcat cu stupii coloraţi ai stupinei Fagurul de Aur, pregătit pentru transport în pastoral"
                 width={1600}
                 height={1200}
                 className="w-full h-auto object-cover"
