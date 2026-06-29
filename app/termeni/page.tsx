@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HexPattern } from "@/components/ui/HexPattern";
+import { PaymentBadges } from "@/components/ui/PaymentBadges";
 
 export const metadata: Metadata = {
   title: "Termeni și Condiții",
@@ -157,12 +158,19 @@ export default function TermeniPage() {
                   ramburs de 5 lei, afișată la finalizarea comenzii.
                 </li>
                 <li>
-                  <strong className="text-text-primary">Plata online cu cardul</strong> — Visa sau
-                  Mastercard, prin procesator de plăți autorizat. Datele cardului sunt procesate exclusiv
-                  de procesatorul de plăți, în mediu securizat (3D Secure); Fagurul de Aur nu stochează datele
-                  cardului dumneavoastră.
+                  <strong className="text-text-primary">Plata online cu cardul</strong> — carduri
+                  <strong className="text-text-primary"> Visa</strong> și
+                  <strong className="text-text-primary"> Mastercard</strong>, procesate prin
+                  <strong className="text-text-primary"> NETOPIA Payments</strong> (NETOPIA FINANCIAL
+                  SERVICES S.A.), procesator de plăți autorizat de Banca Națională a României. Tranzacția
+                  se desfășoară pe pagina securizată a procesatorului, cu autentificare 3D Secure; datele
+                  cardului sunt introduse exclusiv pe platforma NETOPIA, iar Fagurul de Aur nu are acces și
+                  nu stochează datele cardului dumneavoastră.
                 </li>
               </ul>
+              <p className="flex items-center gap-3 flex-wrap pt-1">
+                <PaymentBadges />
+              </p>
               <p>
                 Pentru fiecare comandă se emite factură fiscală, transmisă electronic pe adresa de e-mail
                 indicată de Cumpărător.

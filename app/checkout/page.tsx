@@ -21,6 +21,7 @@ import { couponDiscount } from "@/lib/coupons";
 import { formatPrice } from "@/lib/utils";
 import { HexPattern } from "@/components/ui/HexPattern";
 import { HoneyDropLoader } from "@/components/ui/HoneyDropLoader";
+import { PaymentBadges } from "@/components/ui/PaymentBadges";
 
 const counties = [
   "Alba", "Arad", "Argeș", "Bacău", "Bihor", "Bistrița-Năsăud", "Botoșani", "Brașov",
@@ -503,6 +504,11 @@ export default function CheckoutPage() {
                   introduce datele cardului (3D Secure). Nu stocăm datele cardului.
                 </div>
               )}
+
+              <div className="flex items-center gap-3 flex-wrap">
+                <PaymentBadges />
+                <span className="text-xs text-text-muted">Plată securizată prin NETOPIA Payments</span>
+              </div>
             </section>
 
             {/* Notes */}

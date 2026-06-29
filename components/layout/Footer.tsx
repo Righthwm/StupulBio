@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { HexPattern } from "@/components/ui/HexPattern";
+import { PaymentBadges } from "@/components/ui/PaymentBadges";
 function FacebookIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -130,6 +131,55 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+
+        {/* Payment + consumer-protection compliance band */}
+        <div className="border-t border-gold-400/10 pt-8 pb-8 flex flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col items-center gap-2 lg:items-start">
+            <span className="text-text-muted text-[11px] font-semibold uppercase tracking-widest">
+              Plată 100% securizată
+            </span>
+            <PaymentBadges />
+            <span className="text-text-muted/70 text-[11px]">
+              Procesare prin NETOPIA Payments · 3D Secure
+            </span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 lg:items-end">
+            <span className="text-text-muted text-[11px] font-semibold uppercase tracking-widest">
+              Protecția consumatorilor
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://anpc.ro/ce-este-sal/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md bg-white px-3 py-2 shadow-sm shrink-0"
+                aria-label="ANPC — Soluționarea Alternativă a Litigiilor"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/legal/anpc.png" alt="ANPC" className="h-7 w-auto" />
+              </a>
+              <div className="flex flex-col gap-1">
+                <a
+                  href="https://anpc.ro/ce-este-sal/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-muted text-[11px] hover:text-gold-300 transition-colors"
+                >
+                  ANPC — SAL (Soluționarea Alternativă a Litigiilor)
+                </a>
+                <a
+                  href="https://ec.europa.eu/consumers/odr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-muted text-[11px] hover:text-gold-300 transition-colors"
+                >
+                  SOL — Platforma UE de soluționare online a litigiilor
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
