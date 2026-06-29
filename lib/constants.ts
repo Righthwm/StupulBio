@@ -8,4 +8,4 @@ export const SHIPPING_COST = 30;
 export const FREE_SHIPPING_THRESHOLD = 250;
 
 /** Discount code offered for newsletter / exit-popup signups. */
-export const NEWSLETTER_DISCOUNT_CODE = "FAGURE10";
+export const NEWSLETTER_DISCOUNT_CODE = "FAGURE5";

@@ -20,7 +20,7 @@ export interface Coupon {
 }
 
 const COUPONS: Record<string, Coupon> = {
-  FAGURE10: { code: "FAGURE10", percent: 5, label: "5% reducere abonare" },
+  FAGURE5: { code: "FAGURE5", percent: 5, label: "5% reducere abonare" },
   VARA50: { code: "VARA50", amount: 50, label: "50 lei reducere", expiresAt: "2026-08-31" },
   BONUS25: { code: "BONUS25", amount: 25, label: "25 lei reducere", maxUses: 10 },
 };
