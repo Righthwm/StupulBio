@@ -37,6 +37,11 @@ export const checkoutInputSchema = z.object({
 
 export type CheckoutInput = z.infer<typeof checkoutInputSchema>;
 
+/** How many times a coupon has already been redeemed (orders that used it). */
+export async function couponUsageCount(code: string): Promise<number> {
+  return prisma.order.count({ where: { couponCode: code } });
+}
+
 export interface PersistedOrder {
   orderId: string;
   totals: { subtotal: number; shipping: number; discount: number; total: number };
@@ -68,8 +73,14 @@ export async function persistOrder(input: CheckoutInput, paymentStatus: string):
   });
   const shipping = shippingResult.free ? 0 : shippingResult.cost ?? 0;
   // Coupon validated + applied server-side so the total can't be tampered with.
-  const coupon = getCoupon(input.couponCode);
-  const discount = couponDiscount(subtotal, input.couponCode);
+  const coupon = getCoupon(input.couponCode); // null if missing/expired
+  let appliedCode: string | null = coupon?.code ?? null;
+  let discount = couponDiscount(subtotal, input.couponCode);
+  // Enforce a usage limit by counting prior redemptions.
+  if (coupon?.maxUses != null && (await couponUsageCount(coupon.code)) >= coupon.maxUses) {
+    appliedCode = null;
+    discount = 0;
+  }
   const total = Math.max(0, subtotal - discount + shipping);
   const shippingTbd = !shippingResult.free && !shippingResult.available;
 
@@ -94,7 +105,7 @@ export async function persistOrder(input: CheckoutInput, paymentStatus: string):
       items: JSON.stringify(input.items),
       subtotal,
       shipping,
-      couponCode: coupon?.code ?? null,
+      couponCode: appliedCode,
       discount,
       total,
     },

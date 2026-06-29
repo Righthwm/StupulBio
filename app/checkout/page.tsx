@@ -17,7 +17,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useCartStore, FREE_SHIPPING_THRESHOLD } from "@/lib/cart";
-import { couponDiscount, getCoupon } from "@/lib/coupons";
+import { couponDiscount } from "@/lib/coupons";
 import { formatPrice } from "@/lib/utils";
 import { HexPattern } from "@/components/ui/HexPattern";
 import { HoneyDropLoader } from "@/components/ui/HoneyDropLoader";
@@ -201,16 +201,32 @@ export default function CheckoutPage() {
   const discount = couponDiscount(subtotal, appliedCoupon);
   const total = Math.max(0, subtotal + shippingCost - discount);
 
-  const applyCoupon = () => {
-    const coupon = getCoupon(couponInput);
-    if (!coupon) {
-      setAppliedCoupon(null);
-      setCouponError("Cod invalid sau expirat.");
-      return;
-    }
-    setAppliedCoupon(coupon.code);
-    setCouponInput(coupon.code);
+  const [couponLoading, setCouponLoading] = useState(false);
+
+  const applyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code) return;
     setCouponError("");
+    setCouponLoading(true);
+    try {
+      const res = await fetch("/api/coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal }),
+      });
+      const json: { valid: boolean; code?: string; message?: string } = await res.json();
+      if (!json.valid || !json.code) {
+        setAppliedCoupon(null);
+        setCouponError(json.message ?? "Cod invalid.");
+        return;
+      }
+      setAppliedCoupon(json.code);
+      setCouponInput(json.code);
+    } catch {
+      setCouponError("Nu am putut valida codul. Încearcă din nou.");
+    } finally {
+      setCouponLoading(false);
+    }
   };
 
   const removeCoupon = () => {
@@ -623,9 +639,10 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={applyCoupon}
+                      disabled={couponLoading}
                       className="btn-secondary shrink-0 text-sm px-4"
                     >
-                      Aplică
+                      {couponLoading ? "Se verifică…" : "Aplică"}
                     </button>
                   </div>
                 )}
