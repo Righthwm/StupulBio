@@ -17,6 +17,7 @@ export async function POST(request: Request) {
         shippingAddress: input.shippingAddress,
         paymentMethod: input.paymentMethod,
         notes: notes ?? undefined,
+        couponCode: input.couponCode,
         items: input.items,
         totals,
       });

@@ -50,8 +50,14 @@ export async function POST(request: Request) {
           },
           paymentMethod: order.paymentMethod === "card" ? "card" : "ramburs",
           notes: order.notes ?? undefined,
+          couponCode: order.couponCode,
           items: JSON.parse(order.items) as OrderItem[],
-          totals: { subtotal: order.subtotal, shipping: order.shipping, total: order.total },
+          totals: {
+            subtotal: order.subtotal,
+            shipping: order.shipping,
+            discount: order.discount,
+            total: order.total,
+          },
         });
       } catch (mailError) {
         console.error("Failed to send paid-order email:", mailError);

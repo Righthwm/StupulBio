@@ -63,6 +63,9 @@ model Order {
   items              String   // JSON-encoded OrderItem[] (SQLite has no JSON type)
   subtotal           Int
   shipping           Int
+  // Coupon applied at checkout (uppercase code) and the discount in whole lei.
+  couponCode         String?
+  discount           Int      @default(0)
   total              Int
   status             String   @default("noua")
   createdAt          DateTime @default(now())

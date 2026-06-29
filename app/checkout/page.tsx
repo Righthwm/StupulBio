@@ -17,6 +17,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useCartStore, FREE_SHIPPING_THRESHOLD } from "@/lib/cart";
+import { couponDiscount, getCoupon } from "@/lib/coupons";
 import { formatPrice } from "@/lib/utils";
 import { HexPattern } from "@/components/ui/HexPattern";
 import { HoneyDropLoader } from "@/components/ui/HoneyDropLoader";
@@ -88,6 +89,10 @@ export default function CheckoutPage() {
   const [orderPayment, setOrderPayment] = useState<"card" | "ramburs">("ramburs");
   // Card payment is only available once Netopia is configured (server tells us).
   const [cardEnabled, setCardEnabled] = useState(false);
+  // Discount coupon (validated again server-side on submit).
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [couponError, setCouponError] = useState("");
 
   useEffect(() => setMounted(true), []);
 
@@ -193,7 +198,26 @@ export default function CheckoutPage() {
   }, [mounted, county, locality, localityType, paymentMethod, freeShipping, itemsSig]);
 
   const shippingCost = estimate.status === "available" ? estimate.cost : 0;
-  const total = subtotal + shippingCost;
+  const discount = couponDiscount(subtotal, appliedCoupon);
+  const total = Math.max(0, subtotal + shippingCost - discount);
+
+  const applyCoupon = () => {
+    const coupon = getCoupon(couponInput);
+    if (!coupon) {
+      setAppliedCoupon(null);
+      setCouponError("Cod invalid sau expirat.");
+      return;
+    }
+    setAppliedCoupon(coupon.code);
+    setCouponInput(coupon.code);
+    setCouponError("");
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
+  };
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
@@ -213,6 +237,7 @@ export default function CheckoutPage() {
       },
       paymentMethod: data.paymentMethod,
       notes: data.notes,
+      couponCode: appliedCoupon ?? undefined,
       items: items.map((i) => ({
         productId: i.product.id,
         name: i.product.name,
@@ -560,7 +585,52 @@ export default function CheckoutPage() {
                     Livrare gratuită la comenzi peste {FREE_SHIPPING_THRESHOLD} lei.
                   </p>
                 )}
+                {discount > 0 && (
+                  <div className="flex justify-between">
+                    <dt className="text-text-muted">Reducere ({appliedCoupon})</dt>
+                    <dd className="text-success">−{formatPrice(discount)}</dd>
+                  </div>
+                )}
               </dl>
+
+              {/* Coupon */}
+              <div className="mb-5">
+                {appliedCoupon ? (
+                  <div className="flex items-center justify-between text-sm bg-bg-elevated border border-gold-400/20 rounded-sm px-3 py-2">
+                    <span className="text-success">
+                      Cod <strong>{appliedCoupon}</strong> aplicat
+                    </span>
+                    <button
+                      type="button"
+                      onClick={removeCoupon}
+                      className="text-text-muted hover:text-gold-300 text-xs"
+                    >
+                      Elimină
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      value={couponInput}
+                      onChange={(e) => {
+                        setCouponInput(e.target.value);
+                        setCouponError("");
+                      }}
+                      placeholder="Cod reducere"
+                      className="input-field flex-1 uppercase placeholder:normal-case"
+                      aria-label="Cod reducere"
+                    />
+                    <button
+                      type="button"
+                      onClick={applyCoupon}
+                      className="btn-secondary shrink-0 text-sm px-4"
+                    >
+                      Aplică
+                    </button>
+                  </div>
+                )}
+                {couponError && <p className="text-error text-xs mt-1">{couponError}</p>}
+              </div>
 
               <div className="flex justify-between items-baseline pt-4 border-t border-gold-400/15 mb-6">
                 <span className="text-text-secondary font-body text-sm uppercase tracking-wider">Total</span>

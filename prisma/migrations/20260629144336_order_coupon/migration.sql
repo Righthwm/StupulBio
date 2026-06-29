@@ -1,0 +1,3 @@
+-- Add coupon support to orders
+ALTER TABLE "Order" ADD COLUMN "couponCode" TEXT;
+ALTER TABLE "Order" ADD COLUMN "discount" INTEGER NOT NULL DEFAULT 0;

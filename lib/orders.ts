@@ -2,6 +2,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { estimateShipping, cartSubtotal } from "@/lib/shipping";
+import { couponDiscount, getCoupon } from "@/lib/coupons";
 
 /** Shared validation for both the ramburs checkout and card payment-initiate routes. */
 export const checkoutInputSchema = z.object({
@@ -20,6 +21,7 @@ export const checkoutInputSchema = z.object({
   }),
   paymentMethod: z.enum(["card", "ramburs"]),
   notes: z.string().optional(),
+  couponCode: z.string().max(40).optional(),
   items: z
     .array(
       z.object({
@@ -37,7 +39,7 @@ export type CheckoutInput = z.infer<typeof checkoutInputSchema>;
 
 export interface PersistedOrder {
   orderId: string;
-  totals: { subtotal: number; shipping: number; total: number };
+  totals: { subtotal: number; shipping: number; discount: number; total: number };
   shippingTbd: boolean;
   notes: string | null;
 }
@@ -65,7 +67,10 @@ export async function persistOrder(input: CheckoutInput, paymentStatus: string):
     cashOnDelivery: input.paymentMethod === "ramburs" ? subtotal : 0,
   });
   const shipping = shippingResult.free ? 0 : shippingResult.cost ?? 0;
-  const total = subtotal + shipping;
+  // Coupon validated + applied server-side so the total can't be tampered with.
+  const coupon = getCoupon(input.couponCode);
+  const discount = couponDiscount(subtotal, input.couponCode);
+  const total = Math.max(0, subtotal - discount + shipping);
   const shippingTbd = !shippingResult.free && !shippingResult.available;
 
   const notes =
@@ -89,9 +94,11 @@ export async function persistOrder(input: CheckoutInput, paymentStatus: string):
       items: JSON.stringify(input.items),
       subtotal,
       shipping,
+      couponCode: coupon?.code ?? null,
+      discount,
       total,
     },
   });
 
-  return { orderId, totals: { subtotal, shipping, total }, shippingTbd, notes };
+  return { orderId, totals: { subtotal, shipping, discount, total }, shippingTbd, notes };
 }

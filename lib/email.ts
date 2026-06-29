@@ -72,8 +72,9 @@ export interface OrderEmailData {
   shippingAddress: { county: string; city: string; address: string; postalCode: string };
   paymentMethod: "card" | "ramburs";
   notes?: string;
+  couponCode?: string | null;
   items: OrderItem[];
-  totals: { subtotal: number; shipping: number; total: number };
+  totals: { subtotal: number; shipping: number; discount: number; total: number };
 }
 
 export async function sendOrderEmail(data: OrderEmailData): Promise<void> {
@@ -122,7 +123,11 @@ export async function sendOrderEmail(data: OrderEmailData): Promise<void> {
       </table>
       <p style="margin-top:16px">
         Subtotal: ${formatPrice(totals.subtotal)}<br>
-        Transport: ${formatPrice(totals.shipping)}<br>
+        ${
+          totals.discount > 0
+            ? `Reducere${data.couponCode ? ` (${esc(data.couponCode)})` : ""}: -${formatPrice(totals.discount)}<br>`
+            : ""
+        }Transport: ${formatPrice(totals.shipping)}<br>
         <strong style="font-size:16px">Total: ${formatPrice(totals.total)}</strong>
       </p>
       <p>Plată: <strong>${payment}</strong></p>
@@ -147,6 +152,9 @@ export async function sendOrderEmail(data: OrderEmailData): Promise<void> {
     ),
     ``,
     `Subtotal: ${formatPrice(totals.subtotal)}`,
+    ...(totals.discount > 0
+      ? [`Reducere${data.couponCode ? ` (${data.couponCode})` : ""}: -${formatPrice(totals.discount)}`]
+      : []),
     `Transport: ${formatPrice(totals.shipping)}`,
     `Total: ${formatPrice(totals.total)}`,
     `Plată: ${payment}`,
