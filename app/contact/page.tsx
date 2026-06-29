@@ -85,7 +85,7 @@ export default function ContactPage() {
 
             <div className="space-y-5 mb-8">
               {[
-                { icon: MapPin, label: "Adresă", value: "Gorj, România" },
+                { icon: MapPin, label: "Adresă", value: "Sat Sterpoaia, Comuna Aninoasa, nr. 400, jud. Gorj" },
                 { icon: Mail, label: "Email", value: "faguruldeaur@gmail.com" },
                 { icon: Phone, label: "Telefon", value: "+40 743 252 661" },
                 { icon: Clock, label: "Program", value: "Lun–Vin: 09:00–18:00" },

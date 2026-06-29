@@ -134,12 +134,18 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-gold-400/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-text-muted text-xs text-center sm:text-left">
-            © {new Date().getFullYear()} Fagurul de Aur · Gorj, România · Toate drepturile rezervate
-          </p>
-          <p className="text-text-muted text-xs">
-            <span className="text-gradient-gold">Miere pură</span> · Livrare în toată România
+        <div className="border-t border-gold-400/10 pt-6 flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-text-muted text-xs text-center sm:text-left">
+              © {new Date().getFullYear()} Fagurul de Aur · Toate drepturile rezervate
+            </p>
+            <p className="text-text-muted text-xs">
+              <span className="text-gradient-gold">Miere pură</span> · Livrare în toată România
+            </p>
+          </div>
+          <p className="text-text-muted/70 text-[11px] leading-relaxed text-center sm:text-left">
+            Fagurul de Aur P.F.A. · CUI 28310788 · Nr. înmatriculare F18/235/2011 · EUID ROONRC.F18/235/2011 ·
+            Sat Sterpoaia, Comuna Aninoasa, nr. 400, jud. Gorj, România · faguruldeaur@gmail.com · 0743 252 661
           </p>
         </div>
       </div>

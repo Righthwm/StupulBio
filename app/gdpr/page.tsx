@@ -77,9 +77,10 @@ export default function GdprPage() {
             <Section id="operator" title="1. Cine suntem (Operatorul)">
               <p>
                 Operatorul datelor dumneavoastră cu caracter personal este{" "}
-                <strong className="text-text-primary">FAGURUL DE AUR S.R.L.</strong>, cu sediul în județul
-                Gorj, România, înregistrată la Registrul Comerțului sub nr. J20/XXX/20XX, CUI
-                ROXXXXXXXX (denumită în continuare „Fagurul de Aur", „noi").
+                <strong className="text-text-primary">FAGURUL DE AUR P.F.A.</strong>, cu sediul în Sat
+                Sterpoaia, Comuna Aninoasa, nr. 400, județul Gorj, România, CUI 28310788, nr. de
+                înmatriculare F18/235/2011, EUID ROONRC.F18/235/2011 (denumită în continuare
+                „Fagurul de Aur", „noi").
               </p>
               <p>
                 Ne puteți contacta pentru orice aspect legat de protecția datelor la:{" "}
