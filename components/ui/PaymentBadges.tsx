@@ -4,7 +4,7 @@
 
 function VisaMark() {
   return (
-    <svg viewBox="0 0 60 20" className="h-4 w-auto" role="img" aria-label="Visa">
+    <svg viewBox="0 0 60 20" className="h-5 w-auto" role="img" aria-label="Visa">
       <text
         x="30"
         y="16"
@@ -24,7 +24,7 @@ function VisaMark() {
 
 function MastercardMark() {
   return (
-    <svg viewBox="2 0.5 34 23" className="h-5 w-auto" role="img" aria-label="Mastercard">
+    <svg viewBox="2 0.5 34 23" className="h-6 w-auto" role="img" aria-label="Mastercard">
       <circle cx="15" cy="12" r="11" fill="#EB001B" />
       <circle cx="23" cy="12" r="11" fill="#F79E1B" />
       <path d="M19 1.75A11 11 0 0 1 19 22.25A11 11 0 0 1 19 1.75Z" fill="#FF5F00" />
@@ -36,14 +36,14 @@ function MastercardMark() {
 export function PaymentBadges({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`inline-flex items-center gap-2.5 rounded-md bg-white px-3 py-2 shadow-sm ${className}`}
+      className={`inline-flex items-center gap-3.5 rounded-md bg-white px-4 py-2.5 shadow-sm ${className}`}
     >
       <VisaMark />
-      <span className="h-5 w-px bg-black/10" aria-hidden="true" />
+      <span className="h-6 w-px bg-black/10" aria-hidden="true" />
       <MastercardMark />
-      <span className="h-5 w-px bg-black/10" aria-hidden="true" />
+      <span className="h-6 w-px bg-black/10" aria-hidden="true" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/images/legal/netopia.svg" alt="NETOPIA Payments" className="h-4 w-auto" />
+      <img src="/images/legal/netopia.svg" alt="NETOPIA Payments" className="h-5 w-auto" />
     </div>
   );
 }
