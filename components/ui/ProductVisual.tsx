@@ -25,7 +25,7 @@ export function ProductVisual({ product, width = 110, className }: ProductVisual
     return (
       <Image
         src={product.image}
-        alt={product.name}
+        alt={`${product.name} naturală, recoltată manual — Fagurul de Aur`}
         width={renderWidth}
         height={renderHeight}
         sizes={`${renderWidth}px`}

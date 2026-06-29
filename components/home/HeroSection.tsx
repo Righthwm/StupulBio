@@ -53,7 +53,7 @@ export function HeroSection() {
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gold-400/15 blur-3xl rounded-[50%]" />
           <Image
             src="/images/stup.png"
-            alt=""
+            alt="Stup de albine din stupina Fagurul de Aur, Gorj — apicultură pastorală"
             width={287}
             height={390}
             priority
@@ -74,7 +74,7 @@ export function HeroSection() {
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gold-400/15 blur-3xl rounded-[50%]" />
           <Image
             src="/images/musetel.png"
-            alt=""
+            alt="Flori de mușețel, sursă de nectar pentru miere poliflora naturală"
             width={760}
             height={807}
             priority
@@ -107,7 +107,9 @@ export function HeroSection() {
             animate="visible"
             className="mb-8 flex justify-center"
           >
-            <h1 className="sr-only">Fagurul de Aur</h1>
+            <h1 className="sr-only">
+              Fagurul de Aur — miere naturală pură, 100% bio, recoltată manual în România
+            </h1>
             <motion.div
               id="hero-jar"
               animate={{ y: [0, -8, 0] }}
