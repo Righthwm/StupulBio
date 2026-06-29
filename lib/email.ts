@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { formatPrice } from "./utils";
+import { NEWSLETTER_DISCOUNT_CODE } from "./constants";
 
 export interface OrderItem {
   productId: string;
@@ -200,4 +201,57 @@ export async function sendContactEmail(data: ContactEmailData): Promise<void> {
     text,
     html,
   });
+}
+
+/**
+ * Newsletter / exit-popup signup. Always notifies the shop (reliable, since it
+ * delivers to MAIL_TO), then best-effort sends the welcome + discount code to
+ * the subscriber. The latter only delivers once a sending domain is verified in
+ * Resend — until then it fails quietly and the shop still captures the lead.
+ */
+export async function sendNewsletterSignup(
+  email: string,
+  source: "newsletter" | "popup"
+): Promise<void> {
+  const label = source === "popup" ? "pop-up (exit-intent)" : "formular newsletter";
+
+  // 1) Lead notification to the shop.
+  await send({
+    replyTo: email,
+    subject: `Abonare newsletter nouă — ${email}`,
+    text: `Lead nou (${label})\nEmail: ${email}\nCod oferit: ${NEWSLETTER_DISCOUNT_CODE}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;color:#222;max-width:640px">
+        <h2 style="color:#B5700A">Abonare newsletter nouă</h2>
+        <p>
+          Sursă: ${esc(label)}<br>
+          Email: <a href="mailto:${esc(email)}">${esc(email)}</a><br>
+          Cod oferit: <strong>${NEWSLETTER_DISCOUNT_CODE}</strong>
+        </p>
+      </div>`,
+  });
+
+  // 2) Best-effort welcome to the subscriber (needs a verified domain in Resend).
+  try {
+    const { error } = await getClient().emails.send({
+      from: MAIL_FROM,
+      to: email,
+      subject: "Reducerea ta de 10% la Fagurul de Aur",
+      text: `Bun venit la Fagurul de Aur!\n\nCodul tău de 10% la prima comandă: ${NEWSLETTER_DISCOUNT_CODE}\n\nComandă miere pură din Gorj: https://faguruldeaur.ro/magazin`,
+      html: `
+        <div style="font-family:Arial,sans-serif;color:#222;max-width:560px">
+          <h2 style="color:#B5700A">Bun venit la Fagurul de Aur 🐝</h2>
+          <p>Mulțumim că te-ai abonat! Iată reducerea ta:</p>
+          <p style="font-size:22px;font-weight:bold;letter-spacing:2px;background:#f7f1e3;padding:14px 18px;border-radius:8px;display:inline-block">${NEWSLETTER_DISCOUNT_CODE}</p>
+          <p>Folosește codul la prima comandă de miere artizanală, recoltată manual în Gorj.</p>
+          <p><a href="https://faguruldeaur.ro/magazin" style="color:#B5700A">Descoperă mierea →</a></p>
+        </div>`,
+    });
+    if (error) throw new Error(`${error.name} — ${error.message}`);
+  } catch (welcomeError) {
+    console.error(
+      "Welcome email to subscriber failed (verify a sending domain in Resend to enable):",
+      welcomeError
+    );
+  }
 }

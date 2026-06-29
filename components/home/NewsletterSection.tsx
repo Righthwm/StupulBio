@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, CheckCircle } from "lucide-react";
 import { HexPattern } from "@/components/ui/HexPattern";
+import { NEWSLETTER_DISCOUNT_CODE } from "@/lib/constants";
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -18,8 +19,18 @@ export function NewsletterSection() {
     }
     setError("");
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus("success");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, source: "newsletter" }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+    } catch {
+      setStatus("idle");
+      setError("Ceva n-a mers. Te rugăm încearcă din nou.");
+    }
   };
 
   return (
@@ -52,7 +63,11 @@ export function NewsletterSection() {
             >
               <CheckCircle size={40} className="text-success" />
               <p className="text-text-primary font-heading text-xl">Mulțumim pentru abonare!</p>
-              <p className="text-text-muted text-sm">Codul tău de reducere a fost trimis pe email.</p>
+              <p className="text-text-muted text-sm">
+                Codul tău de 10%:{" "}
+                <strong className="text-gold-300 tracking-wider">{NEWSLETTER_DISCOUNT_CODE}</strong>
+              </p>
+              <p className="text-text-muted text-xs">Ți l-am trimis și pe email. Folosește-l la prima comandă.</p>
             </motion.div>
           ) : (
             <form

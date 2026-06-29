@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, CheckCircle } from "lucide-react";
+import { NEWSLETTER_DISCOUNT_CODE } from "@/lib/constants";
 
 const SEEN_KEY = "fda-exit-popup-seen";
 
@@ -43,10 +44,19 @@ export function ExitIntentPopup() {
     };
   }, []);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.includes("@")) return;
-    setDone(true);
+    setDone(true); // optimistic — the lead send happens in the background
+    try {
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, source: "popup" }),
+      });
+    } catch {
+      /* lead send failed; the user still sees their code */
+    }
   };
 
   return (
@@ -81,7 +91,11 @@ export function ExitIntentPopup() {
               <div className="flex flex-col items-center gap-3 py-4">
                 <CheckCircle size={40} className="text-success" />
                 <p className="font-heading text-xl text-text-primary">Gata, e al tău!</p>
-                <p className="text-text-muted text-sm">Ți-am trimis codul de 10% pe email.</p>
+                <p className="text-text-secondary text-sm">
+                  Codul tău de 10%:{" "}
+                  <strong className="text-gold-300 tracking-wider">{NEWSLETTER_DISCOUNT_CODE}</strong>
+                </p>
+                <p className="text-text-muted text-xs">Ți l-am trimis și pe email.</p>
               </div>
             ) : (
               <>
