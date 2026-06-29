@@ -100,6 +100,7 @@ export const products: Product[] = [
       { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#8B5E0A",
+    image: "/images/products/miere-munte.webp",
     badge: "Premium",
     badgeColor: "gold",
     inStock: true,

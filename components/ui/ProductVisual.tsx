@@ -15,7 +15,7 @@ interface ProductVisualProps {
 // width × 4/3. We match a real photo to that height so cards in a grid keep
 // their rows aligned regardless of the photo's own aspect ratio.
 const JAR_RATIO = 320 / 240;
-const PHOTO_RATIO = 1115 / 760; // intrinsic ratio of the product photos
+const PHOTO_RATIO = 1140 / 760; // shared canvas ratio of all normalized product photos
 
 /** Product illustration — real photo when available, else the generated jar/bottle. */
 export function ProductVisual({ product, width = 110, className }: ProductVisualProps) {
