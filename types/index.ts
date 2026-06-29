@@ -20,6 +20,8 @@ export interface Product {
   color: string;
   /** Icon shape used for the product illustration. Defaults to the honey jar. */
   visual?: "jar" | "bottle";
+  /** Real product photo (transparent PNG/WebP). Overrides the generated illustration. */
+  image?: string;
   badge?: string;
   badgeColor?: "gold" | "green" | "amber";
   /** Optional promo badge shown in the opposite corner (e.g. a bundle offer). */

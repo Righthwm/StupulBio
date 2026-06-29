@@ -46,6 +46,7 @@ export const products: Product[] = [
       { weight: "1kg", price: 30, weightKg: 1.4 },
     ],
     color: "#D4A827",
+    image: "/images/products/miere-tei.webp",
     badge: "Calmant natural",
     badgeColor: "gold",
     inStock: true,
