@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { HexPattern } from "@/components/ui/HexPattern";
 import { PaymentBadges } from "@/components/ui/PaymentBadges";
+import { products } from "@/lib/products";
 function FacebookIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -27,12 +28,8 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-const productLinks = [
-  { href: "/magazin/miere-salcam", label: "Miere Salcâm" },
-  { href: "/magazin/miere-tei", label: "Miere Tei" },
-  { href: "/magazin/miere-munte", label: "Miere de Munte" },
-  { href: "/magazin/tinctura-propolis", label: "Tinctură Propolis" },
-];
+// Generated from the catalog so the footer always lists every product.
+const productLinks = products.map((p) => ({ href: `/magazin/${p.slug}`, label: p.name }));
 
 const legalLinks = [
   { href: "/gdpr", label: "Politică GDPR" },

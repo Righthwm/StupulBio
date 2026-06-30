@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Minus, Plus, ShoppingBasket, MapPin, Leaf, Truck, Check } from "lucide-react";
+import { Star, Minus, Plus, ShoppingBasket, MapPin, Leaf, Truck, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { ProductVisual } from "@/components/ui/ProductVisual";
 import { useCartStore } from "@/lib/cart";
 import { formatPrice, getVariantLabel } from "@/lib/utils";
-import { getRelatedProducts, reviews as allReviews } from "@/lib/products";
+import { getRelatedProducts, reviews as allReviews, products } from "@/lib/products";
 import { ProductCard } from "./ProductCard";
 import type { Product } from "@/types";
 
@@ -49,6 +50,23 @@ export function ProductDetail({ product }: { product: Product }) {
   const productReviews = allReviews[product.slug] ?? [];
   const related = getRelatedProducts(product);
 
+  // Prev/next navigation across the catalog (wraps around).
+  const router = useRouter();
+  const idx = products.findIndex((p) => p.slug === product.slug);
+  const prevProduct = products[(idx - 1 + products.length) % products.length];
+  const nextProduct = products[(idx + 1) % products.length];
+  const touchStartX = useRef<number | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 50) router.push(`/magazin/${dx < 0 ? nextProduct.slug : prevProduct.slug}`);
+    touchStartX.current = null;
+  };
+
   const handleAdd = () => {
     addItem(product, selectedVariant, quantity);
     setAddedAnim(true);
@@ -70,10 +88,42 @@ export function ProductDetail({ product }: { product: Product }) {
         {/* Image */}
         <div className="flex flex-col items-center gap-4">
           <div
-            className="w-full rounded-sm border border-gold-400/10 bg-bg-surface flex items-center justify-center p-8"
-            style={{ minHeight: "360px" }}
+            className="relative w-full select-none"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
-            <ProductVisual product={product} width={250} className="mx-auto" />
+            <div
+              className="w-full rounded-sm border border-gold-400/10 bg-bg-surface flex items-center justify-center p-8"
+              style={{ minHeight: "360px" }}
+            >
+              <ProductVisual product={product} width={250} className="mx-auto" />
+            </div>
+
+            {/* Prev / next product arrows */}
+            <Link
+              href={`/magazin/${prevProduct.slug}`}
+              aria-label={`Produsul anterior: ${prevProduct.name}`}
+              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg-elevated/80 backdrop-blur border border-gold-400/20 flex items-center justify-center text-text-secondary hover:text-gold-300 hover:border-gold-400/50 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </Link>
+            <Link
+              href={`/magazin/${nextProduct.slug}`}
+              aria-label={`Produsul următor: ${nextProduct.name}`}
+              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg-elevated/80 backdrop-blur border border-gold-400/20 flex items-center justify-center text-text-secondary hover:text-gold-300 hover:border-gold-400/50 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </Link>
+          </div>
+
+          {/* Prev / next labels (desktop hint) */}
+          <div className="hidden sm:flex w-full items-center justify-between text-xs text-text-muted">
+            <Link href={`/magazin/${prevProduct.slug}`} className="flex items-center gap-1 hover:text-gold-300 transition-colors max-w-[45%] truncate">
+              <ChevronLeft size={13} className="shrink-0" /> {prevProduct.name}
+            </Link>
+            <Link href={`/magazin/${nextProduct.slug}`} className="flex items-center gap-1 hover:text-gold-300 transition-colors max-w-[45%] truncate justify-end">
+              {nextProduct.name} <ChevronRight size={13} className="shrink-0" />
+            </Link>
           </div>
         </div>
 
