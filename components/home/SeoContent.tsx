@@ -22,7 +22,7 @@ export const homeFaqs: { q: string; a: string }[] = [
   },
   {
     q: "Cât durează livrarea mierii în România?",
-    a: "Livrăm prin curier rapid în toată România, de regulă în 24–48 de ore lucrătoare. Comenzile peste 200 lei beneficiază de transport gratuit. Poți comanda miere naturală online cu plata cu cardul sau ramburs la livrare.",
+    a: "Livrăm prin curier rapid în toată România, de regulă în 24–48 de ore lucrătoare. Comenzile peste 300 lei beneficiază de transport gratuit. Poți comanda miere naturală online cu plata cu cardul sau ramburs la livrare.",
   },
 ];
 

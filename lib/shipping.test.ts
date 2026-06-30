@@ -27,7 +27,7 @@ describe("cartSubtotal", () => {
 describe("estimateShipping", () => {
   const addr = { county: "Cluj", locality: "Cluj-Napoca", localityType: "urban" as const, cashOnDelivery: 0 };
 
-  it("is free at or above the 250 lei threshold", async () => {
+  it("is free at or above the 300 lei threshold", async () => {
     const bigOrder = [{ productId: "miere-salcam", variantPrice: 200, quantity: 2 }]; // 400 lei
     const result = await estimateShipping({ items: bigOrder, ...addr });
     expect(result.free).toBe(true);

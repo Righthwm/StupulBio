@@ -185,7 +185,7 @@ export default function TermeniPage() {
               </p>
               <ul className="list-disc pl-5 space-y-2">
                 <li>Cost livrare: <strong className="text-text-primary">19 lei</strong>;</li>
-                <li>Livrare <strong className="text-text-primary">gratuită</strong> pentru comenzile de peste <strong className="text-text-primary">200 lei</strong>;</li>
+                <li>Livrare <strong className="text-text-primary">gratuită</strong> pentru comenzile de peste <strong className="text-text-primary">300 lei</strong>;</li>
                 <li>Produsele sunt ambalate protector (carton, separatoare), iar pe timp de caniculă se folosesc soluții suplimentare de protecție termică.</li>
               </ul>
               <p>
