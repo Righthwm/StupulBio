@@ -7,11 +7,11 @@ import { buildMetadata, breadcrumbSchema, siteConfig, jsonLd } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Magazin miere naturală — salcâm, tei, munte, polifloră",
   description:
-    "Cumpără miere naturală online: salcâm, tei, munte, polifloră, mană și propolis. Miere bio românească, recoltată manual, extracție la rece. Comandă cu livrare 24–48h.",
+    "Cumpără miere naturală online: salcâm, tei, munte, polifloră, mană și propolis. Miere pură românească, recoltată manual, extracție la rece. Comandă cu livrare 24–48h.",
   path: "/magazin",
   keywords: [
     "cumpără miere naturală online",
-    "magazin miere bio",
+    "magazin miere naturală",
     "miere poliflora",
     "produse apicole naturale",
   ],

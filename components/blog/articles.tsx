@@ -168,7 +168,7 @@ function CumRecunostiMiereaNaturala() {
       <H2>5. Eticheta și proveniența</H2>
       <P>
         Caută originea florală, locul de recoltare și producătorul. Mențiunile „amestec de mieri din UE și
-        non-UE" sunt un semnal de atenție. O <strong>miere bio</strong> autentică vine de la o stupină
+        non-UE" sunt un semnal de atenție. O <strong>miere naturală</strong> autentică vine de la o stupină
         identificabilă, cu factură fiscală pentru fiecare comandă.
       </P>
 
@@ -253,9 +253,178 @@ function DeCeCristalizeazaMierea() {
   );
 }
 
+function BeneficiiMiereDeSalcam() {
+  return (
+    <>
+      <Lead>
+        Mierea de salcâm este una dintre cele mai apreciate și mai rafinate sortimente de miere din lume.
+        Recoltată din florile albe, parfumate, ale salcâmilor în plină floare, se distinge prin culoarea
+        aproape transparentă, gustul delicat floral și cristalizarea foarte lentă.
+      </Lead>
+
+      <H2>Proprietățile mierii de salcâm</H2>
+      <P>
+        Mierea de salcâm are un conținut ridicat de fructoză, ceea ce îi conferă două caracteristici unice:
+        rămâne lichidă timp îndelungat (cristalizează foarte lent) și are un indice glicemic mai blând decât
+        alte sortimente. Culoarea variază de la incolor la galben-pai foarte deschis, iar aroma este fină,
+        florală, fără note agresive.
+      </P>
+
+      <H2>Beneficiile mierii de salcâm</H2>
+      <H3>1. Blândă cu stomacul</H3>
+      <P>
+        Datorită fructozei și acidității scăzute, mierea de salcâm este ușor de tolerat și apreciată ca
+        îndulcitor natural pentru ceaiuri și deserturi, fără a altera gustul preparatelor.
+      </P>
+      <H3>2. Antibacteriană naturală</H3>
+      <P>
+        Ca toate sortimentele de miere crudă, conține enzime și compuși cu rol antibacterian natural, care
+        sprijină organismul — cu condiția să fie neîncălzită și neprelucrată.
+      </P>
+      <H3>3. Energie ușor de asimilat</H3>
+      <P>
+        Zaharurile naturale oferă energie rapidă, motiv pentru care mierea de salcâm este preferată de copii,
+        sportivi și de oricine are nevoie de un plus de vitalitate fără zahăr rafinat.
+      </P>
+
+      <ShopCTA href="/magazin/miere-salcam" label="Comandă miere de salcâm">
+        Mierea noastră de salcâm este recoltată manual și extrasă la rece, păstrând aroma delicată și toate
+        enzimele naturale.
+      </ShopCTA>
+
+      <H2>De ce cristalizează atât de lent</H2>
+      <P>
+        Raportul mare fructoză/glucoză face ca mierea de salcâm să rămână lichidă luni, chiar ani. Dacă vrei
+        să înțelegi mai bine fenomenul, citește articolul despre{" "}
+        <A href="/blog/de-ce-cristalizeaza-mierea">de ce cristalizează mierea naturală</A>. Iar dacă vrei să
+        te asiguri că ai o miere autentică, vezi{" "}
+        <A href="/blog/cum-recunosti-mierea-naturala">cum recunoști mierea naturală pură</A>.
+      </P>
+      <P>
+        Descoperă și celelalte sortimente în <A href="/magazin">magazinul Fagurul de Aur</A> sau află{" "}
+        <A href="/despre-noi">povestea stupinei noastre</A>.
+      </P>
+    </>
+  );
+}
+
+function PropolisCeEste() {
+  return (
+    <>
+      <Lead>
+        Propolisul este unul dintre cele mai valoroase produse apicole — o substanță rășinoasă pe care
+        albinele o colectează de pe muguri și scoarța copacilor și o folosesc pentru a-și proteja stupul.
+        Cunoscut din antichitate, propolisul este apreciat pentru proprietățile sale antibacteriene naturale.
+      </Lead>
+
+      <H2>Ce este propolisul</H2>
+      <P>
+        În stup, propolisul are rolul unui „sistem imunitar" colectiv: albinele căptușesc cu el pereții
+        fagurelui și sigilează fisurile, ținând la distanță bacteriile și ciupercile. Compoziția lui este
+        complexă — rășini, ceară, uleiuri esențiale, polen și peste 300 de compuși bioactivi, între care
+        flavonoide și acizi fenolici.
+      </P>
+
+      <H2>Beneficiile propolisului</H2>
+      <UL>
+        <li><strong>Proprietăți antibacteriene și antifungice</strong> naturale, recunoscute tradițional.</li>
+        <li><strong>Sprijin pentru gât și cavitatea bucală</strong> — folosit adesea în răceli și iritații.</li>
+        <li><strong>Susținerea imunității</strong>, datorită bogăției de flavonoide și antioxidanți.</li>
+        <li><strong>Efect calmant local</strong> pentru mici iritații ale pielii și mucoaselor.</li>
+      </UL>
+      <P>
+        Important: propolisul poate provoca reacții alergice persoanelor sensibile la produse apicole.
+        Informațiile au caracter general și nu înlocuiesc sfatul medicului.
+      </P>
+
+      <H2>Cum se folosește tinctura de propolis</H2>
+      <OL>
+        <li>Diluează câteva picături într-un pahar cu apă sau pe o linguriță de miere.</li>
+        <li>Pentru gât iritat, poți face gargară cu soluția diluată.</li>
+        <li>Începe cu o cantitate mică, pentru a verifica toleranța, mai ales la copii.</li>
+      </OL>
+
+      <ShopCTA href="/magazin/tinctura-propolis" label="Vezi tinctura de propolis">
+        Tinctura noastră de propolis provine din stupina Fagurul de Aur — produs apicol natural, fără aditivi.
+      </ShopCTA>
+
+      <H2>Propolis și miere — o combinație naturală</H2>
+      <P>
+        Propolisul se completează perfect cu mierea. Pentru gât iritat și imunitate, mulți combină tinctura
+        de propolis cu o linguriță de <A href="/magazin/miere-tei">miere de tei</A> sau{" "}
+        <A href="/magazin/miere-munte">miere de munte</A>. Vezi și ghidul despre{" "}
+        <A href="/blog/miere-pentru-tuse-si-imunitate">miere pentru tuse și imunitate</A> și restul{" "}
+        <A href="/magazin">produselor apicole</A>.
+      </P>
+    </>
+  );
+}
+
+function MierePentruTuseImunitate() {
+  return (
+    <>
+      <Lead>
+        De generații, mierea este primul remediu natural la care apelăm pentru un gât iritat sau o răceală.
+        Nu orice miere este însă la fel: anumite sortimente sunt mai potrivite pentru tuse, altele pentru
+        susținerea imunității. Iată ce alegi și cum folosești corect mierea naturală.
+      </Lead>
+
+      <H2>De ce ajută mierea la tuse</H2>
+      <P>
+        Mierea formează un strat fin, calmant, pe mucoasa gâtului, reducând senzația de iritație și nevoia de
+        a tuși. Conține enzime și compuși cu rol antibacterian natural, motiv pentru care o linguriță de miere
+        seara este un gest simplu și eficient. Atenție: nu se administrează copiilor sub 1 an.
+      </P>
+
+      <H2>Ce sortimente alegi</H2>
+      <H3>Miere de tei — pentru gât iritat și somn</H3>
+      <P>
+        <A href="/magazin/miere-tei">Mierea de tei</A> este renumită pentru efectul calmant și ușor sedativ.
+        O linguriță într-un ceai călduț (nu fierbinte) seara ajută la liniștirea tusei și a somnului.
+      </P>
+      <H3>Miere de munte — pentru imunitate</H3>
+      <P>
+        <A href="/magazin/miere-munte">Mierea de munte</A> concentrează nectarul plantelor medicinale alpine
+        și este bogată în compuși bioactivi, fiind apreciată ca tonic general și sprijin pentru apărarea
+        organismului.
+      </P>
+      <H3>Miere polifloră — tonic zilnic</H3>
+      <P>
+        <A href="/magazin/miere-poliflora">Mierea polifloră</A> oferă o paletă largă de antioxidanți și
+        enzime. Citește mai mult despre <A href="/blog/beneficii-miere-poliflora">beneficiile mierii poliflora</A>.
+      </P>
+      <H3>Propolis — apărare suplimentară</H3>
+      <P>
+        Pentru un plus de protecție, <A href="/blog/propolis-ce-este-beneficii">propolisul</A> se combină
+        excelent cu mierea, fiind tradițional folosit pentru gât și imunitate.
+      </P>
+
+      <ShopCTA>
+        Combină mierea de tei, de munte și tinctura de propolis pentru un sprijin natural la primele semne de
+        răceală.
+      </ShopCTA>
+
+      <H2>Cum o folosești corect</H2>
+      <UL>
+        <li>Nu adăuga mierea în lichide peste 40°C — căldura distruge enzimele.</li>
+        <li>O linguriță simplă, seara, este suficientă pentru gât iritat.</li>
+        <li>Alege miere crudă, neîncălzită — vezi diferențele în articolul{" "}
+          <A href="/blog/miere-cruda-vs-pasteurizata">miere crudă vs pasteurizată</A>.</li>
+      </UL>
+      <P>
+        Descoperă toate sortimentele potrivite pentru sezonul rece în{" "}
+        <A href="/magazin">magazinul Fagurul de Aur</A>.
+      </P>
+    </>
+  );
+}
+
 export const articles: Record<string, () => ReactNode> = {
   "beneficii-miere-poliflora": BeneficiiMierePoliflora,
   "miere-cruda-vs-pasteurizata": MiereCrudaVsPasteurizata,
   "cum-recunosti-mierea-naturala": CumRecunostiMiereaNaturala,
   "de-ce-cristalizeaza-mierea": DeCeCristalizeazaMierea,
+  "beneficii-miere-de-salcam": BeneficiiMiereDeSalcam,
+  "propolis-ce-este-beneficii": PropolisCeEste,
+  "miere-pentru-tuse-si-imunitate": MierePentruTuseImunitate,
 };

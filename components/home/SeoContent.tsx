@@ -6,7 +6,7 @@ import { HexPattern } from "@/components/ui/HexPattern";
 export const homeFaqs: { q: string; a: string }[] = [
   {
     q: "Ce înseamnă miere naturală pură (raw honey)?",
-    a: "Mierea naturală pură, sau raw honey, este miere crudă, neîncălzită și neprelucrată, extrasă la rece direct din fagure. Nu este pasteurizată și nu i se adaugă zahăr, sirop sau aditivi, astfel încât enzimele, antioxidanții și flavonoidele rămân intacte. Toată mierea Fagurul de Aur este 100% naturală și bio.",
+    a: "Mierea naturală pură, sau raw honey, este miere crudă, neîncălzită și neprelucrată, extrasă la rece direct din fagure. Nu este pasteurizată și nu i se adaugă zahăr, sirop sau aditivi, astfel încât enzimele, antioxidanții și flavonoidele rămân intacte. Toată mierea Fagurul de Aur este 100% naturală și pură.",
   },
   {
     q: "De ce cristalizează mierea naturală?",
@@ -17,8 +17,8 @@ export const homeFaqs: { q: string; a: string }[] = [
     a: "Mierea polifloră provine din nectarul a zeci de flori de câmp, fiind bogată în enzime, antioxidanți, polen și minerale. Susține imunitatea, oferă energie și are un gust complex. Fiind un cules diversificat, concentrează biodiversitatea pajiștilor românești.",
   },
   {
-    q: "Cum recunosc o miere bio, recoltată manual?",
-    a: "Mierea bio recoltată manual provine dintr-o stupină gestionată fără antibiotice și fără tratamente chimice, cu extracție la rece prin centrifugare. Fagurul de Aur garantează puritatea fiecărui borcan și emite factură fiscală pentru fiecare comandă.",
+    q: "Cum recunosc o miere naturală, recoltată manual?",
+    a: "Mierea naturală recoltată manual provine dintr-o stupină gestionată fără antibiotice și fără tratamente chimice, cu extracție la rece prin centrifugare. Fagurul de Aur garantează puritatea fiecărui borcan și emite factură fiscală pentru fiecare comandă.",
   },
   {
     q: "Cât durează livrarea mierii în România?",
@@ -43,7 +43,7 @@ export function SeoContent() {
         <div className="space-y-5 text-text-secondary leading-relaxed">
           <p>
             <strong className="text-text-primary">Fagurul de Aur</strong> este o stupină de familie din
-            Gorj, unde producem <strong className="text-text-primary">miere naturală pură, 100% bio</strong>,
+            Gorj, unde producem <strong className="text-text-primary">miere naturală pură, 100% curată</strong>,
             din 2009. Albinele noastre culeg nectar din salcâm, tei, flori de munte și pajiști poliflore,
             iar noi recoltăm mierea <strong className="text-text-primary">manual</strong>, prin extracție la
             rece din fagure. Așa obținem <strong className="text-text-primary">miere crudă (raw honey)</strong>,
@@ -56,7 +56,7 @@ export function SeoContent() {
             polen și ceară ca produse apicole adiacente.
           </p>
 
-          <h3 className="font-heading text-text-primary text-xl pt-2">Miere bio, recoltată manual în România</h3>
+          <h3 className="font-heading text-text-primary text-xl pt-2">Miere pură, recoltată manual în România</h3>
           <p>
             Fiecare borcan poartă amprenta culesului din care provine. Mierea de salcâm cristalizează lent și
             are aromă delicată; mierea de tei este calmantă și aromatică; mierea de munte concentrează plante
@@ -68,7 +68,7 @@ export function SeoContent() {
           <h3 className="font-heading text-text-primary text-xl pt-2">Garanție de puritate și calitate</h3>
           <p>
             Suntem un producător de miere din România care pune calitatea înaintea cantității. Mierea noastră
-            este miere ecologică certificată prin practicile stupinei, fără aditivi și fără încălzire, cu
+            este miere curată, recoltată responsabil, fără aditivi și fără încălzire, cu
             <strong className="text-text-primary"> garanție de puritate</strong>. Cristalizarea naturală, gustul
             autentic și aroma florală sunt dovada că ai în față miere neprelucrată, recoltată cu grijă. Comandă
             online cu livrare în 24–48h în toată țara.

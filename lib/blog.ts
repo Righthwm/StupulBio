@@ -56,14 +56,14 @@ export const blogPosts: BlogPostMeta[] = [
     title: "Cum recunoști mierea naturală pură: 7 semne de autenticitate",
     h1: "Cum recunoști mierea naturală pură: 7 semne sigure",
     description:
-      "7 metode simple prin care recunoști mierea naturală fără aditivi de cea falsificată: cristalizare, vâscozitate, aromă, etichetă. Ghid practic pentru miere bio autentică.",
+      "7 metode simple prin care recunoști mierea naturală fără aditivi de cea falsificată: cristalizare, vâscozitate, aromă, etichetă. Ghid practic pentru miere naturală autentică.",
     excerpt:
       "Cristalizare, vâscozitate, aromă, etichetă — 7 semne practice prin care deosebești mierea naturală pură de cea cu zahăr sau sirop.",
     date: "2026-06-25",
     keywords: [
       "miere naturală fără aditivi",
       "cum recunoști mierea naturală",
-      "miere bio",
+      "miere pură",
       "miere falsificată",
       "miere naturală pură",
     ],
@@ -84,6 +84,48 @@ export const blogPosts: BlogPostMeta[] = [
     readingMinutes: 5,
     image: "/images/products/miere-munte.webp",
     imageAlt: "Borcan de miere naturală de munte Fagurul de Aur, cu cristalizare naturală",
+  },
+  {
+    slug: "beneficii-miere-de-salcam",
+    title: "Miere de salcâm: beneficii, proprietăți și utilizări",
+    h1: "Miere de salcâm: beneficii, proprietăți și utilizări",
+    description:
+      "Mierea de salcâm: beneficii, proprietăți și de ce cristalizează lent. Aromă delicată, ideală pentru copii, ceaiuri și deserturi. Miere de salcâm pură, recoltată manual.",
+    excerpt:
+      "Culoare deschisă, aromă delicată și cristalizare lentă — descoperă beneficiile mierii de salcâm și de ce este una dintre cele mai apreciate sortimente.",
+    date: "2026-06-30",
+    keywords: ["miere de salcâm", "beneficii miere salcâm", "miere salcâm cristalizare", "miere naturală"],
+    readingMinutes: 5,
+    image: "/images/apiar-fagurul-de-aur.jpg",
+    imageAlt: "Stupina Fagurul de Aur din Gorj, unde se recoltează mierea de salcâm",
+  },
+  {
+    slug: "propolis-ce-este-beneficii",
+    title: "Propolis: ce este, beneficii și cum se folosește",
+    h1: "Propolis: ce este, beneficii și cum se folosește",
+    description:
+      "Ce este propolisul, ce beneficii are și cum se folosește tinctura de propolis. Proprietăți antibacteriene naturale, sprijin pentru imunitate și gât, direct din stup.",
+    excerpt:
+      "Rășina prețioasă a stupului: află ce este propolisul, ce proprietăți are și cum folosești corect tinctura de propolis pentru imunitate.",
+    date: "2026-07-02",
+    keywords: ["propolis", "beneficii propolis", "tinctură de propolis", "propolis cum se folosește", "produse apicole"],
+    readingMinutes: 6,
+    image: "/images/transport-stupi.jpg",
+    imageAlt: "Stupi în transhumanță — apicultură pastorală și produse apicole precum propolisul",
+  },
+  {
+    slug: "miere-pentru-tuse-si-imunitate",
+    title: "Miere pentru tuse și imunitate: ce soiuri ajută",
+    h1: "Miere pentru tuse și imunitate: ce soiuri te ajută",
+    description:
+      "Ce miere e bună pentru tuse și imunitate: tei, munte, polifloră și propolis. Cum folosești mierea naturală pentru gât iritat și apărarea organismului, fără a o încălzi.",
+    excerpt:
+      "Tei pentru gât iritat, munte pentru imunitate, propolis pentru apărare — vezi ce sortimente de miere naturală ajută la tuse și răceli.",
+    date: "2026-07-04",
+    keywords: ["miere pentru tuse", "miere pentru imunitate", "miere de tei tuse", "propolis imunitate", "miere naturală"],
+    readingMinutes: 6,
+    image: "/images/products/miere-tei.webp",
+    imageAlt: "Miere de tei naturală, recomandată pentru gât iritat, tuse și imunitate",
   },
 ];
 

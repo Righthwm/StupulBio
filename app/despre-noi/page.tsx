@@ -10,7 +10,7 @@ import type { TimelineEvent } from "@/types";
 const timeline: TimelineEvent[] = [
   { year: "2009", title: "Prima familie de albine", description: "Totul a început cu o singură familie de albine și o pasiune care nu mai putea fi ignorată. Primul cules, prima miere — nerafinată, naturală, perfectă." },
   { year: "2012", title: "Primii 50 de stupi", description: "Stupina a crescut organic, respectând ritmul natural al albinelor." },
-  { year: "2020", title: "Puritate Garantată", description: "După ani de practici ecologice riguroase, garantăm puritatea naturală a fiecărui borcan. Niciun antibiotic, niciun tratament chimic — niciodată." },
+  { year: "2020", title: "Puritate Garantată", description: "După ani de practici naturale riguroase, garantăm puritatea fiecărui borcan. Niciun antibiotic, niciun tratament chimic — niciodată." },
   { year: "2024", title: "120 de familii de albine", description: "Stupina a atins o scală importantă, păstrând în același timp calitatea artizanală. Am investit în echipamente de extracție la rece și în ambalaje eco." },
   { year: "2026", title: "Fagurul de Aur online", description: "Mierea noastră ajunge acum direct la clienți din toată România. Povestea continuă — la fiecare borcan deschis, Mireasma florilor intră în casa ta." },
 ];

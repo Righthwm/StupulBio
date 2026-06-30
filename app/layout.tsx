@@ -31,7 +31,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Miere Naturală Pură 100% Bio din România | Fagurul de Aur",
+    default: "Miere Naturală Pură din România | Fagurul de Aur",
     template: "%s — Fagurul de Aur",
   },
   description: siteConfig.description,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   category: "Food & Beverage",
   openGraph: {
-    title: "Miere Naturală Pură 100% Bio din România | Fagurul de Aur",
+    title: "Miere Naturală Pură din România | Fagurul de Aur",
     description:
       "Miere naturală pură online, direct de la stupină. Salcâm, tei, munte, polifloră, propolis — miere crudă, extracție la rece, garanție puritate. Livrare 24–48h.",
     type: "website",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Miere Naturală Pură 100% Bio din România | Fagurul de Aur",
+    title: "Miere Naturală Pură din România | Fagurul de Aur",
     description: "Miere artizanală pură, 100% naturală, recoltată manual în România.",
     images: [siteConfig.ogImage],
   },

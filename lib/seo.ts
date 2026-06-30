@@ -6,7 +6,7 @@ export const siteConfig = {
   name: "Fagurul de Aur",
   legalName: "POPESCU V. VETUȚA P.F.A.",
   description:
-    "Miere naturală pură, 100% bio, recoltată manual în România — salcâm, tei, munte, polifloră. Miere crudă (raw honey), neîncălzită, fără aditivi, fără antibiotice. Livrare 24–48h.",
+    "Miere naturală pură, recoltată manual în România — salcâm, tei, munte, polifloră. Miere crudă (raw honey), neîncălzită, fără aditivi, fără antibiotice. Livrare 24–48h.",
   url: "https://faguruldeaur.ro",
   locale: "ro_RO",
   email: "faguruldeaur@gmail.com",
@@ -30,12 +30,12 @@ export const siteConfig = {
 /** Default keyword set covering the honey/apiculture lexical field (RO + raw honey). */
 export const siteKeywords = [
   "miere naturală",
-  "miere bio",
-  "miere bio România",
+  "miere pură",
+  "miere naturală România",
   "miere poliflora",
   "miere de albine pură",
   "miere artizanală România",
-  "miere ecologică certificată",
+  "miere curată naturală",
   "cumpără miere naturală online",
   "miere premium",
   "miere de salcâm",

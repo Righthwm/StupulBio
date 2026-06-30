@@ -108,7 +108,7 @@ export function HeroSection() {
             className="mb-8 flex justify-center"
           >
             <h1 className="sr-only">
-              Fagurul de Aur — miere naturală pură, 100% bio, recoltată manual în România
+              Fagurul de Aur — miere naturală pură, recoltată manual în România
             </h1>
             <motion.div
               id="hero-jar"
