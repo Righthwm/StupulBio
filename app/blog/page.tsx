@@ -70,7 +70,9 @@ export default function BlogPage() {
                   alt={post.imageAlt}
                   fill
                   sizes="(max-width: 640px) 100vw, 480px"
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  className={`transition-transform duration-500 hover:scale-105 ${
+                    post.image.includes("/products/") ? "object-contain p-3" : "object-cover"
+                  }`}
                 />
               </Link>
               <div className="p-5 flex flex-col flex-1">

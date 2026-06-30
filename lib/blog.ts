@@ -82,8 +82,8 @@ export const blogPosts: BlogPostMeta[] = [
     date: "2026-06-28",
     keywords: ["cristalizare miere", "miere zaharisită", "miere naturală", "miere de salcâm", "miere de munte"],
     readingMinutes: 5,
-    image: "/images/products/miere-munte.webp",
-    imageAlt: "Borcan de miere naturală de munte Fagurul de Aur, cu cristalizare naturală",
+    image: "/images/products/miere-rapita.webp",
+    imageAlt: "Borcan de miere de rapiță Fagurul de Aur, soi care cristalizează rapid și natural",
   },
   {
     slug: "beneficii-miere-de-salcam",
@@ -96,8 +96,8 @@ export const blogPosts: BlogPostMeta[] = [
     date: "2026-06-30",
     keywords: ["miere de salcâm", "beneficii miere salcâm", "miere salcâm cristalizare", "miere naturală"],
     readingMinutes: 5,
-    image: "/images/apiar-fagurul-de-aur.jpg",
-    imageAlt: "Stupina Fagurul de Aur din Gorj, unde se recoltează mierea de salcâm",
+    image: "/images/products/miere-salcam.webp",
+    imageAlt: "Borcan de miere de salcâm Fagurul de Aur, naturală, recoltată manual",
   },
   {
     slug: "propolis-ce-este-beneficii",
@@ -110,8 +110,8 @@ export const blogPosts: BlogPostMeta[] = [
     date: "2026-07-02",
     keywords: ["propolis", "beneficii propolis", "tinctură de propolis", "propolis cum se folosește", "produse apicole"],
     readingMinutes: 6,
-    image: "/images/transport-stupi.jpg",
-    imageAlt: "Stupi în transhumanță — apicultură pastorală și produse apicole precum propolisul",
+    image: "/images/products/tinctura-propolis.webp",
+    imageAlt: "Tinctură de propolis Fagurul de Aur — produs apicol natural pentru imunitate",
   },
   {
     slug: "miere-pentru-tuse-si-imunitate",

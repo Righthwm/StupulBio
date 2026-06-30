@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }: Props) {
             alt={post.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 768px"
-            className="object-cover"
+            className={post.image.includes("/products/") ? "object-contain p-4" : "object-cover"}
             priority
           />
         </div>
