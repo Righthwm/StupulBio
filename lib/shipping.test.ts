@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { packageWeightKg, cartSubtotal, estimateShipping } from "./shipping";
-import { baseRateForWeight, ruralSurchargeForKm, provisionalTariff } from "./shipping-config";
+import {
+  baseRateForWeight,
+  ruralSurchargeForKm,
+  provisionalTariff,
+  estimateDistanceKm,
+} from "./shipping-config";
 
 // miere-salcam 1kg = 45 lei / 1.4 kg ; propolis 20ml = 15 lei / 0.2 kg
 const salcam = { productId: "miere-salcam", variantPrice: 45, quantity: 2 };
@@ -42,11 +47,11 @@ describe("estimateShipping", () => {
     expect(result.weightKg).toBe(3.0);
   });
 
-  it("adds the rural surcharge to the provisional estimate", async () => {
+  it("adds the precomputed rural surcharge to the provisional estimate", async () => {
     const rural = { county: "Gorj", locality: "Sterpoaia", localityType: "rural" as const, cashOnDelivery: 0 };
     const result = await estimateShipping({ items: [salcam, propolis], ...rural }); // 3.0 kg
     expect(result.estimated).toBe(true);
-    expect(result.cost).toBe(22 + 15); // 3 kg urban base + 30 km default rural bracket
+    expect(result.cost).toBe(22 + 15); // 3 kg base + Sterpoaia 31 km → 25–50 km bracket
   });
 });
 
@@ -73,6 +78,21 @@ describe("provisional shipping config", () => {
 
   it("only surcharges rural localities", () => {
     expect(provisionalTariff(3, "urban")).toBe(22);
-    expect(provisionalTariff(3, "rural")).toBe(22 + 15);
+    expect(provisionalTariff(3, "rural")).toBe(22 + 15); // no locality → default 30 km
+  });
+
+  it("reads the precomputed distance per Gorj locality", () => {
+    expect(estimateDistanceKm("Gorj", "Barza", "rural")).toBe(9);
+    expect(estimateDistanceKm("Gorj", "Arcani", "rural")).toBe(12);
+    expect(estimateDistanceKm("Gorj", "Bojinu", "rural")).toBe(56);
+    expect(estimateDistanceKm("Gorj", "Barza", "urban")).toBe(0); // urban = agency in town
+    expect(estimateDistanceKm("Gorj", "Sat Inexistent", "rural")).toBe(30); // fallback default
+  });
+
+  it("brackets the surcharge by real distance", () => {
+    expect(provisionalTariff(3, "rural", "Gorj", "Barza")).toBe(22 + 5); // 9 km
+    expect(provisionalTariff(3, "rural", "Gorj", "Arcani")).toBe(22 + 10); // 12 km
+    expect(provisionalTariff(3, "rural", "Gorj", "Alimpești")).toBe(22 + 15); // 41 km
+    expect(provisionalTariff(3, "rural", "Gorj", "Bojinu")).toBe(22 + 20); // 56 km
   });
 });

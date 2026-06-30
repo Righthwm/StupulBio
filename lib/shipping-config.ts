@@ -13,6 +13,16 @@
  * automat din `weightKg` al fiecărui produs (lib/products.ts) × cantitate.
  */
 
+import distanceData from "@/lib/data/locality-distances.json";
+
+/**
+ * Distanța precalculată (km) de la fiecare localitate la reședința de județ
+ * (= cea mai apropiată agenție Fan Courier de referință), pe baza coordonatelor
+ * GeoNames. Generat offline; ~94% din localități au distanță, restul folosesc
+ * `defaultRuralDistanceKm`. Structură: { Județ: { Localitate: km } }.
+ */
+const DISTANCE_BY_LOCALITY = distanceData as Record<string, Record<string, number>>;
+
 export interface WeightBracket {
   /** Limita superioară a tranșei, în kg (inclusiv). */
   maxKg: number;
@@ -64,10 +74,9 @@ export const SHIPPING_CONFIG = {
   ] as DistanceBracket[],
 
   /**
-   * Distanță (km) folosită pentru un sat generic cât timp NU cunoaștem
-   * coordonatele reale ale localității. Provizoriu, toate satele primesc această
-   * estimare; API-ul Fan Courier o va înlocui cu distanța reală pe colet.
-   * Modifică valoarea pentru a muta satele într-o altă tranșă de suprataxă.
+   * Distanță (km) de rezervă, folosită doar pentru localitățile rurale care nu
+   * apar în tabelul de distanțe precalculat (DISTANCE_BY_LOCALITY). API-ul Fan
+   * Courier va înlocui oricum estimarea cu distanța reală pe colet.
    */
   defaultRuralDistanceKm: 30,
 };
@@ -83,12 +92,19 @@ export function baseRateForWeight(weightKg: number): number {
 }
 
 /**
- * Distanța estimată (km) a unei localități față de cea mai apropiată agenție.
- * Provizoriu nu avem coordonate, deci satele primesc `defaultRuralDistanceKm`,
- * iar localitățile urbane sunt considerate la 0 km (agenție în oraș).
+ * Distanța (km) a unei localități față de reședința de județ (agenția de
+ * referință). Localitățile urbane au agenție în oraș → 0 km. Pentru sate
+ * folosește distanța precalculată GeoNames, cu `defaultRuralDistanceKm` ca
+ * rezervă când localitatea nu e în tabel.
  */
-export function estimateDistanceKm(localityType: "urban" | "rural"): number {
-  return localityType === "rural" ? SHIPPING_CONFIG.defaultRuralDistanceKm : 0;
+export function estimateDistanceKm(
+  county: string,
+  locality: string,
+  localityType: "urban" | "rural"
+): number {
+  if (localityType === "urban") return 0;
+  const km = DISTANCE_BY_LOCALITY[county]?.[locality];
+  return typeof km === "number" ? km : SHIPPING_CONFIG.defaultRuralDistanceKm;
 }
 
 /** Suprataxa rurală (lei) pentru o distanță dată. */
@@ -101,10 +117,16 @@ export function ruralSurchargeForKm(km: number): number {
 
 /**
  * Tarif de transport PROVIZORIU (lei, incl. TVA) pe baza greutății coletului și
- * a tipului de localitate. Înlocuit de tariful real Fan Courier când e conectat.
+ * a distanței localității la reședința de județ. Înlocuit de tariful real Fan
+ * Courier când e conectat.
  */
-export function provisionalTariff(weightKg: number, localityType: "urban" | "rural"): number {
+export function provisionalTariff(
+  weightKg: number,
+  localityType: "urban" | "rural",
+  county = "",
+  locality = ""
+): number {
   const base = baseRateForWeight(weightKg);
-  const surcharge = localityType === "rural" ? ruralSurchargeForKm(estimateDistanceKm(localityType)) : 0;
-  return base + surcharge;
+  if (localityType !== "rural") return base;
+  return base + ruralSurchargeForKm(estimateDistanceKm(county, locality, localityType));
 }

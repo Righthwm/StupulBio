@@ -80,7 +80,7 @@ export async function estimateShipping(input: EstimateInput): Promise<ShippingRe
     if (error instanceof FanCourierUnavailableError) {
       // No live courier API yet: fall back to the provisional table so the
       // customer still sees a concrete (estimated) shipping cost.
-      const cost = provisionalTariff(weightKg, input.localityType);
+      const cost = provisionalTariff(weightKg, input.localityType, input.county, input.locality);
       return { free: false, available: true, estimated: true, cost, weightKg };
     }
     throw error;
