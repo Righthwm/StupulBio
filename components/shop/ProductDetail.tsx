@@ -217,9 +217,15 @@ export function ProductDetail({ product }: { product: Product }) {
           >
             {activeTab === "descriere" && (
               <div className="prose prose-invert max-w-3xl">
-                {product.longDescription.split("\n\n").map((para, i) => (
-                  <p key={i} className="text-text-secondary leading-relaxed mb-4">{para}</p>
-                ))}
+                {product.longDescription.split("\n\n").map((block, i) =>
+                  block.startsWith("## ") ? (
+                    <h2 key={i} className="font-heading text-text-primary text-xl mt-7 mb-2 first:mt-0">
+                      {block.slice(3)}
+                    </h2>
+                  ) : (
+                    <p key={i} className="text-text-secondary leading-relaxed mb-4">{block}</p>
+                  )
+                )}
               </div>
             )}
 
