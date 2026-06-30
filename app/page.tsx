@@ -5,7 +5,6 @@ import { SeasonBanner } from "@/components/home/SeasonBanner";
 import { StorySection } from "@/components/home/StorySection";
 import { BenefitsSection } from "@/components/home/BenefitsSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
-import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { ExitIntentPopup } from "@/components/home/ExitIntentPopup";
 import { SeoContent, homeFaqs } from "@/components/home/SeoContent";
 import { faqSchema, jsonLd } from "@/lib/seo";
@@ -25,7 +24,6 @@ export default function HomePage() {
       <BenefitsSection />
       <TestimonialsSection />
       <SeoContent />
-      <NewsletterSection />
       <ExitIntentPopup />
     </>
   );
