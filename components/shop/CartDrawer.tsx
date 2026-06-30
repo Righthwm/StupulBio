@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { X, Plus, Minus, Trash2, ShoppingBasket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCartStore, shippingFor, FREE_SHIPPING_THRESHOLD } from "@/lib/cart";
@@ -85,18 +86,27 @@ export function CartDrawer() {
                         key={`${item.product.id}-${item.selectedVariant.price}`}
                         className="flex gap-4 py-3 border-b border-gold-400/8"
                       >
-                        {/* Color swatch */}
+                        {/* Product photo (color swatch fallback) */}
                         <div
-                          className="w-14 h-14 rounded-sm shrink-0 flex items-center justify-center"
+                          className="relative w-14 h-14 rounded-sm shrink-0 overflow-hidden border border-gold-400/10 flex items-center justify-center"
                           style={{
-                            background: `radial-gradient(circle at 35% 35%, ${item.product.color}CC, ${item.product.color}66)`,
+                            background: `radial-gradient(circle at 35% 30%, ${item.product.color}33, ${item.product.color}11)`,
                           }}
-                          aria-hidden="true"
                         >
-                          <svg width="28" height="28" viewBox="0 0 28 28">
-                            <ellipse cx="14" cy="14" rx="11" ry="10" fill={item.product.color} opacity="0.9" />
-                            <ellipse cx="10" cy="10" rx="3" ry="2.5" fill="rgba(255,255,255,0.3)" />
-                          </svg>
+                          {item.product.image ? (
+                            <Image
+                              src={item.product.image}
+                              alt={item.product.name}
+                              fill
+                              sizes="56px"
+                              className="object-contain p-0.5 drop-shadow-[0_3px_5px_rgba(0,0,0,0.35)]"
+                            />
+                          ) : (
+                            <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                              <ellipse cx="14" cy="14" rx="11" ry="10" fill={item.product.color} opacity="0.9" />
+                              <ellipse cx="10" cy="10" rx="3" ry="2.5" fill="rgba(255,255,255,0.3)" />
+                            </svg>
+                          )}
                         </div>
 
                         <div className="flex-1 min-w-0">
