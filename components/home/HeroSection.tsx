@@ -24,7 +24,7 @@ export function HeroSection() {
       aria-label="Secțiunea hero Fagurul de Aur"
     >
       <div
-        className="h-screen flex items-center overflow-hidden"
+        className="min-h-screen flex items-center overflow-hidden pt-16 lg:pt-20"
         style={{ background: "var(--hero-gradient)" }}
       >
         {/* Radial glow */}
@@ -83,7 +83,7 @@ export function HeroSection() {
         </motion.div>
 
         {/* Center content */}
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-6 text-center pt-28 pb-24">
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-6 text-center pt-10 pb-20">
           {/* Skip to content */}
           <a
             href="#main-content"
